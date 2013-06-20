@@ -39,3 +39,6 @@ Introduce a dependency on a piece of system information that is not stored on th
 ### unchanged: Handle files which do not change
 
 ### multiple: Rules with multiple outputs 
+
+### spaces: Can you build files containing spaces
+
