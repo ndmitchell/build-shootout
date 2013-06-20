@@ -34,7 +34,7 @@ test name f = do
         let clean = catch (removeDirectoryRecursive "temp") $ \(_ :: SomeException) -> return ()
         clean
         createDirectoryIfMissing True "temp"
-        forM_ ["examples","scripts"] $ \dir -> do
+        forM_ ["examples","util"] $ \dir -> do
             xs <- getDirectoryContents dir
             sequence_ [copyFile (dir </> x) ("temp" </> x) | x <- xs, (name ++ "-") `isPrefixOf` x]
         withCurrentDirectory "temp" $ do
