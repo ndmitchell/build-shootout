@@ -1,0 +1,5 @@
+
+rule run
+    command = sh basic-create $in $out
+
+build output: run input
