@@ -1,0 +1,9 @@
+
+.PHONY: all
+all: output1 output2
+
+output1: input1
+	sh parallel-run input1 output1
+
+output2: input2
+	sh parallel-run input2 output2

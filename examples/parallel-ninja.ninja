@@ -1,0 +1,6 @@
+
+rule run
+    command = sh parallel-run $in $out
+
+build output1: run input1
+build output2: run input2
