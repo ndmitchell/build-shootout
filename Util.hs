@@ -44,11 +44,13 @@ test name f = do
         clean -- deliberately don't clean up on failure
         putStrLn $ "Success"
 
+
 touch :: FilePath -> IO ()
 touch file = do
     src <- readFile file
     evaluate $ length src
     writeFile file src
+
 
 findTools :: String -> IO [Tool]
 findTools name = do
