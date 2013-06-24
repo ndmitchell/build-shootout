@@ -10,6 +10,7 @@ main :: IO ()
 main = do
     test "basic" basic
     test "parallel" parallel
+    test "include" include
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -27,4 +28,13 @@ parallel run = do
     writeFile "input1" "xyz"
     writeFile "input2" "abc"
     run [Parallel 2, Contents ".log" "start\nstart\nend\nend\n"]
+    run [NoChange]
+
+
+include :: ([Opt] -> IO ()) -> IO ()
+include run = do
+    run [Change "main.o"]
+    run [NoChange]
+    touch "include-2.h"
+    run [Change "main.o"]
     run [NoChange]

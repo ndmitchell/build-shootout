@@ -1,0 +1,7 @@
+
+rule gcc
+    deps = gcc
+    depfile = $out.d
+    command = gcc -MMD -MT $out -MF $out.d -c $in -o $out
+
+build main.o: gcc include-main.c
