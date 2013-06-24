@@ -1,0 +1,6 @@
+
+
+main.o: include-main.c
+	gcc -MMD -MT main.o -MF main.d -c include-main.c -o main.o
+
+-include main.d
