@@ -11,6 +11,7 @@ import Data.Char
 import Data.List
 import System.Cmd
 import System.Directory
+import System.Environment
 import System.Exit
 import System.FilePath
 import System.IO
@@ -27,11 +28,22 @@ data Tool = Ninja | Shake | Make
     deriving (Show,Eq,Enum,Bounded)
 
 
+filterArgs :: IO (String -> Bool, Tool -> Bool)
+filterArgs = do
+    let lcase = map toLower
+    xs <- getArgs
+    let ts = [lcase $ show t| t :: Tool <- [minBound..maxBound]]
+    let (tool,norm) = partition (`elem` ts) $ map lcase xs
+    return ((\x -> null norm || lcase x `elem` norm)
+           ,(\x -> null tool || lcase (show x) `elem` tool))
+
+
 test :: String -> (([Opt] -> IO ()) -> IO ()) -> IO ()
 test name f = do
+    (filtName, filtTool) <- filterArgs
     hSetBuffering stdout NoBuffering
     ts <- findTools name
-    forM_ ts $ \t -> do
+    forM_ ts $ \t -> when (filtName name && filtTool t) $ do
         putStr $ "## Testing " ++ name ++ " " ++ show t ++ "... "
         let clean = catch (removeDirectoryRecursive "temp") $ \(_ :: SomeException) -> return ()
         clean
