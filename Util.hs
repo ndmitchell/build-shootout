@@ -78,8 +78,12 @@ opt _ NoChange = do
 opt _ Parallel{} = return $ return ()
 
 
+modTime :: FilePath -> IO (Maybe String)
 modTime file | "." `isPrefixOf` file = return Nothing
-             | otherwise = fmap Just $ getModificationTime file
+             | otherwise = do
+                b <- doesFileExist file
+                if b then fmap (Just . show) $ getModificationTime file else return Nothing
+
 
 withCurrentDirectory :: FilePath -> IO () -> IO ()
 withCurrentDirectory dir act = do
