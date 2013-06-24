@@ -19,6 +19,7 @@ import System.IO
 data Opt
     = NoChange
     | Contents FilePath String
+    | Change FilePath
     | Parallel Int
 
 
@@ -81,6 +82,11 @@ opt _ NoChange = do
         times2 <- mapM modTime dir
         when (times /= times2) $ error "Files were modified"
 opt _ Parallel{} = return $ return ()
+opt _ (Change file) = do
+    a <- modTime file
+    return $ do
+        b <- modTime file
+        when (a == b) $ error "File did not change"
 
 
 modTime :: FilePath -> IO (Maybe String)
