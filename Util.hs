@@ -2,7 +2,7 @@
 
 -- | A test script to check those build systems claiming to implement a test
 --   do in fact do so.
-module Util(test, Opt(..), Tool(..)) where
+module Util(test, Opt(..), Tool(..), touch) where
 
 import Control.Concurrent
 import Control.Exception
@@ -43,6 +43,11 @@ test name f = do
         clean -- deliberately don't clean up on failure
         putStrLn $ "Success"
 
+touch :: FilePath -> IO ()
+touch file = do
+    src <- readFile file
+    evaluate $ length src
+    writeFile file src
 
 findTools :: String -> IO [Tool]
 findTools name = do
