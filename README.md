@@ -24,6 +24,8 @@ Given two targets, build them in parallel.
 
 Given a C file, compile it, automatically figuring out any transitively included dependencies. If any of those dependencies change in future, it should rebuild.
 
+### wildcard: Build a file specified by an extension wildcard
+
 ### directory: Build all C files in a directory
 
 
