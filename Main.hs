@@ -26,5 +26,5 @@ parallel :: ([Opt] -> IO ()) -> IO ()
 parallel run = do
     writeFile "input1" "xyz"
     writeFile "input2" "abc"
-    run [Parallel 2, Contents "log" "start\nstart\nend\nend\n"]
+    run [Parallel 2, Contents ".log" "start\nstart\nend\nend\n"]
     run [NoChange]

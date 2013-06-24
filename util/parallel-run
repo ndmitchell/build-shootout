@@ -1,4 +1,4 @@
-echo start >> log
+echo start >> .log
 sleep 1s
 cp $1 $2
-echo end >> log
+echo end >> .log
