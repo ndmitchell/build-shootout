@@ -22,6 +22,7 @@ data Opt
     | Contents FilePath String
     | Change FilePath
     | Parallel Int
+    | Target FilePath
 
 
 data Tool = Ninja | Shake | Make
@@ -76,14 +77,17 @@ run name tool opts = do
     xs <- mapM (opt tool) opts
     threadDelay 1000000
     let p = last $ 1 : [i | Parallel i <- opts]
+    let target = unwords [x | Target x <- opts]
     case tool of
-        Shake -> system_ $ "runhaskell " ++ name ++ "-shake.hs --quiet -j" ++ show p
-        Make -> system_ $ "make --file=" ++ name ++ "-make --quiet -j" ++ show p
-        Ninja -> system_ $ "sh -c \"ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " > /dev/null\""
+        Shake -> system_ $ "runhaskell -Werror " ++ name ++ "-shake.hs --quiet -j" ++ show p ++ " " ++ target
+        Make -> system_ $ "make --file=" ++ name ++ "-make --quiet -j" ++ show p ++ " " ++ target
+        Ninja -> system_ $ "sh -c \"ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ target ++ " > /dev/null\""
     sequence_ xs
 
 
 opt :: Tool -> Opt -> IO (IO ())
+opt _ Parallel{} = return $ return ()
+opt _ Target{} = return $ return ()
 opt _ (Contents file x) = return $ do
     src <- readFile file
     when (src /= x) $ error $ "File is wrong: " ++ file
@@ -95,7 +99,6 @@ opt _ NoChange = do
         when (dir /= dir2) $ error "Contents changed"
         times2 <- mapM modTime dir
         when (times /= times2) $ error "Files were modified"
-opt _ Parallel{} = return $ return ()
 opt _ (Change file) = do
     a <- modTime file
     return $ do
