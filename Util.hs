@@ -2,7 +2,11 @@
 
 -- | A test script to check those build systems claiming to implement a test
 --   do in fact do so.
-module Util(test, Opt(..), Tool(..), touch) where
+module Util(
+    test, Opt(..),
+    touch,
+    randomRIO
+    ) where
 
 import Control.Concurrent
 import Control.Exception
@@ -15,6 +19,7 @@ import System.Environment
 import System.Exit
 import System.FilePath
 import System.IO
+import System.Random
 
 
 data Opt
