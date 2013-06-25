@@ -36,12 +36,15 @@ data Tool = Ninja | Shake | Make
 
 filterArgs :: IO (String -> Bool, Tool -> Bool)
 filterArgs = do
-    let lcase = map toLower
     xs <- getArgs
     let ts = [lcase $ show t| t :: Tool <- [minBound..maxBound]]
     let (tool,norm) = partition (`elem` ts) $ map lcase xs
     return ((\x -> null norm || lcase x `elem` norm)
            ,(\x -> null tool || lcase (show x) `elem` tool))
+
+
+lcase :: String -> String
+lcase = map toLower
 
 
 test :: String -> (([Opt] -> IO ()) -> IO ()) -> IO ()
@@ -50,7 +53,7 @@ test name f = do
     hSetBuffering stdout NoBuffering
     ts <- findTools name
     forM_ ts $ \t -> when (filtName name && filtTool t) $ do
-        putStr $ "## Testing " ++ name ++ " " ++ show t ++ "... "
+        putStr $ "## " ++ name ++ " " ++ lcase (show t) ++ " ... "
         let clean = catch (removeDirectoryRecursive "temp") $ \(_ :: SomeException) -> return ()
         clean
         createDirectoryIfMissing True "temp"
