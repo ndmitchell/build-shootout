@@ -12,6 +12,7 @@ main = do
     test "parallel" parallel
     test "include" include
     test "wildcard" wildcard
+    test "spaces" spaces
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -51,3 +52,13 @@ wildcard run = do
     writeFile (name ++ ".in") "xyz"
     run [Target $ name ++ ".out", Contents (name ++ ".out") "xyz"]
     run [Target $ name ++ ".out", NoChange]
+
+
+spaces :: ([Opt] -> IO ()) -> IO ()
+spaces run = do
+    writeFile "input file" "abc"
+    run [Target "output file", Contents "output file" "abc"]
+    run [Target "output file", NoChange]
+    writeFile "input file" "xyz"
+    run [Target "output file", Contents "output file" "xyz"]
+    run [Target "output file", NoChange]

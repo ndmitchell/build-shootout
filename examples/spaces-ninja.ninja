@@ -1,0 +1,5 @@
+
+rule cp
+    command = cp $in $out
+
+build output$ file: cp input$ file
