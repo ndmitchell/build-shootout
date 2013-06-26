@@ -85,11 +85,11 @@ run name tool opts = do
     xs <- mapM (opt tool) opts
     threadDelay 1000000
     let p = last $ 1 : [i | Parallel i <- opts]
-    let target = unwords [x | Target x <- opts]
+    let target = unwords ["\"" ++ x ++ "\"" | Target x <- opts]
     case tool of
         Shake -> system_ $ "runhaskell -Werror " ++ name ++ "-shake.hs --quiet -j" ++ show p ++ " " ++ target
         Make -> system_ $ "make --file=" ++ name ++ "-make --quiet -j" ++ show p ++ " " ++ target
-        Ninja -> system_ $ "sh -c \"ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ target ++ " > /dev/null\""
+        Ninja -> system_ $ "sh -c \"ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ replace "\"" "\\\"" target ++ " > /dev/null\""
     sequence_ xs
 
 
@@ -131,3 +131,10 @@ system_ :: String -> IO ()
 system_ cmd = do
     r <- system cmd
     when (r /= ExitSuccess) $ error "System command failed"
+
+
+replace :: String -> String -> String -> String
+replace from to xs
+    | Just xs <- stripPrefix from xs = to ++ replace from to xs
+    | x:xs <- xs = x : replace from to xs
+    | otherwise = []
