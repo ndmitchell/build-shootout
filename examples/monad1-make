@@ -1,0 +1,3 @@
+
+output : list $(shell cat list)
+	cat $(filter-out $<,$^) > $@

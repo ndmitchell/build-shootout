@@ -13,6 +13,7 @@ main = do
     test "include" include
     test "wildcard" wildcard
     test "spaces" spaces
+    test "monad1" monad1
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -62,3 +63,20 @@ spaces run = do
     writeFile "input file" "xyz"
     run [Target "output file", Contents "output file" "xyz"]
     run [Target "output file", NoChange]
+
+
+monad1 :: ([Opt] -> IO ()) -> IO ()
+monad1 run = do
+    writeFile "list" $ "input1\ninput2\n"
+    writeFile "input1" "test"
+    writeFile "input2" "again"
+    run [Target "output", Contents "output" "testagain"]
+    run [Target "output", NoChange]
+    writeFile "input1" "more"
+    run [Target "output", Contents "output" "moreagain"]
+    run [Target "output", NoChange]
+    writeFile "list" "input1\n"
+    run [Target "output", Contents "output" "more"]
+    run [Target "output", NoChange]
+    writeFile "input2" "x"
+    run [Target "output", NoChange]
