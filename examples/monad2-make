@@ -1,0 +1,9 @@
+
+output: list
+	cat list | xargs cat > output
+	cat list | xargs echo output: > output.d
+
+list: source
+	sh monad2-run source list
+
+-include output.d
