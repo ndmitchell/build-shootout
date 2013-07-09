@@ -67,7 +67,7 @@ spaces run = do
 
 monad1 :: ([Opt] -> IO ()) -> IO ()
 monad1 run = do
-    writeFile "list" $ "input1\ninput2\n"
+    writeFile "list" "input1\ninput2\n"
     writeFile "input1" "test"
     writeFile "input2" "again"
     run [Target "output", Contents "output" "testagain"]
