@@ -1,0 +1,7 @@
+
+
+rule run
+    depfile = $out.d
+    command = sh -c "(cat $in | xargs cat > $out) && (cat $in | xargs echo $out: > $depfile)"
+
+build output: run list
