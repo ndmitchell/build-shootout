@@ -8,7 +8,14 @@ This project attempts to clarify the relative power of various build systems. Co
 
 Below are a list of tests, a description of the test, and a list of build systems that can implement the test, and a list of those that are currently believed to lack the power to implement the test.
 
-To pass a test the build system must follow the specification, must not rebuild anything in subsequent builds (all files must end up clean) and must not require explicit assume dirty/assume clean flags to be specified. If a build system requires restarting (and rechecking all previously checked dependency files) it is considered a partial pass.
+To pass a test the build system must:
+
+* Follow the specification, including the test case, but for certain tests if the specification is more restrictive, I may improve the test case in future.
+* Must not rebuild things in subsequent runs, all files must end up clean.
+* Must not require explicit assume dirty/assume clean flags to be specified.
+* Must not explicitly check for the existence of a file (you can always write a build system in a line of shell for any of these problems, the idea is to use the build system) 
+ 
+If a build system requires restarting, which requires rechecking all previously checked dependency files but not running any expensive commands, it is considered a partial pass.
 
 Performance is deliberately not measured as all actions are specified via shell scripts to make the results as similar as possible - even if some of the build systems would not use that approach.
 
