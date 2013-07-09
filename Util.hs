@@ -98,7 +98,10 @@ opt _ Parallel{} = return $ return ()
 opt _ Target{} = return $ return ()
 opt _ (Contents file x) = return $ do
     src <- readFile file
-    when (src /= x) $ error $ "File is wrong: " ++ file
+    when (src /= x) $ error $
+        "File is wrong: " ++ file ++ "\n" ++
+        "Expected: " ++ show x ++ "\n" ++
+        "Got: " ++ show src
 opt _ NoChange = do
     dir <- getDirectoryContents "."
     times <- mapM modTime dir
