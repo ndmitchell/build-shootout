@@ -15,6 +15,7 @@ main = do
     test "spaces" spaces
     test "monad1" monad1
     test "monad2" monad2
+    test "monad3" monad3
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -98,3 +99,15 @@ monad2 run = do
     run [Target "output", NoChange]
     writeFile "input2" "x"
     run [Target "output", NoChange, Contents ".log" "run\nrun\n"]
+
+
+monad3 :: ([Opt] -> IO ()) -> IO ()
+monad3 run = do
+    writeFile "source" "output1\noutput2\n"
+    writeFile "input1" "test"
+    writeFile "input2" "again"
+    run [Target "output", Contents "output" "testagain", Contents ".log" "run\n"]
+    run [Target "output", NoChange, Contents ".log" "run\n", Missing "gen"]
+    writeFile "source" "gen\noutput2\n"
+    run [Target "output", Contents "output" "Generated\nagain"]
+    run [Target "output", NoChange]
