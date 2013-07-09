@@ -25,6 +25,7 @@ import System.Random
 data Opt
     = NoChange
     | Contents FilePath String
+    | Missing FilePath
     | Change FilePath
     | Parallel Int
     | Target FilePath
@@ -96,6 +97,9 @@ run name tool opts = do
 opt :: Tool -> Opt -> IO (IO ())
 opt _ Parallel{} = return $ return ()
 opt _ Target{} = return $ return ()
+opt _ (Missing file) = return $ do
+    b <- doesFileExist file
+    when b $ error $ "Fail should be missing: " ++ file
 opt _ (Contents file x) = return $ do
     src <- readFile file
     when (src /= x) $ error $
