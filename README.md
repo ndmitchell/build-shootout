@@ -44,3 +44,6 @@ Introduce a dependency on a piece of system information that is not stored on th
 
 ### spaces: Can you build files containing spaces
 
+### monad1 - monad3: Monadic patterns
+
+Some build systems can fake some monadic actions, but it is hard. This tests a series of monadic examples.
