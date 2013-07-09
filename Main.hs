@@ -14,6 +14,7 @@ main = do
     test "wildcard" wildcard
     test "spaces" spaces
     test "monad1" monad1
+    test "monad2" monad2
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -80,3 +81,20 @@ monad1 run = do
     run [Target "output", NoChange]
     writeFile "input2" "x"
     run [Target "output", NoChange]
+
+
+monad2 :: ([Opt] -> IO ()) -> IO ()
+monad2 run = do
+    writeFile "source" "output1\noutput2\n"
+    writeFile "input1" "test"
+    writeFile "input2" "again"
+    run [Target "output", Contents "output" "testagain", Contents ".log" "run\n"]
+    run [Target "output", NoChange, Contents ".log" "run\n"]
+    writeFile "input1" "more"
+    run [Target "output", Contents "output" "moreagain"]
+    run [Target "output", NoChange]
+    writeFile "source" "output1\n"
+    run [Target "output", Contents "output" "more", Contents ".log" "run\nrun\n"]
+    run [Target "output", NoChange]
+    writeFile "input2" "x"
+    run [Target "output", NoChange, Contents ".log" "run\nrun\n"]
