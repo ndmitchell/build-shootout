@@ -109,7 +109,7 @@ run name tool opts = do
     let p = last $ 1 : [i | Parallel i <- opts]
     let target = unwords ["\"" ++ x ++ "\"" | Target x <- opts]
     case tool of
-        Shake -> system_ $ "runhaskell -Werror " ++ name ++ "-shake.hs --quiet -j" ++ show p ++ " " ++ target
+        Shake -> system_ $ "runhaskell -Werror -fwarn-unused-binds -fwarn-unused-imports " ++ name ++ "-shake.hs --quiet -j" ++ show p ++ " " ++ target
         Make -> system_ $ "make --file=" ++ name ++ "-make --quiet -j" ++ show p ++ " " ++ target
         Ninja -> system_ $ "sh -c \"ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ replace "\"" "\\\"" target ++ " > /dev/null\""
     sequence_ xs
