@@ -1,2 +1,2 @@
 echo run >> .log
-sed 's/out/in/g' $1 > $2
+sed 's/out/in/g' $1 > $3

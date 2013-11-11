@@ -8,6 +8,6 @@ build output: run list
 
 
 rule run2
-    command = sh monad2-run $in $out
+    command = sh monad2-run $in -- $out
 
 build list: run2 source

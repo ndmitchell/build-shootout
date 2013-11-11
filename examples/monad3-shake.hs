@@ -8,7 +8,7 @@ main = shakeArgs shakeOptions $ do
 
     "list" *> \out -> do
         need ["source"]
-        cmd Shell "sh monad3-run source list"
+        cmd Shell "sh monad3-run source -- list"
 
     "gen" *> \out -> do
-        cmd Shell "sh monad3-gen gen"
+        cmd Shell "sh monad3-gen -- gen"

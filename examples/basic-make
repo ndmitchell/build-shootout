@@ -1,3 +1,3 @@
 
 output: input
-	sh basic-run input output
+	sh basic-run input -- output

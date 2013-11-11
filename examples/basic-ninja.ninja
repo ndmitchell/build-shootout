@@ -1,5 +1,5 @@
 
 rule run
-    command = sh basic-run $in $out
+    command = sh basic-run $in -- $out
 
 build output: run input

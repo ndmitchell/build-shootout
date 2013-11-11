@@ -1,1 +1,1 @@
-echo Generated > $1
+echo Generated > $2

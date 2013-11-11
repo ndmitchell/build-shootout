@@ -14,8 +14,8 @@ To pass a test the build system must:
 * Must not rebuild things in subsequent runs, all files must end up clean.
 * Must not require explicit assume dirty/assume clean flags to be specified.
 * Must not explicitly check for the existence of a file (you can always write a build system in a line of shell for any of these problems, the idea is to use the build system).
-* All build-shootout shell scripts must be treated as black boxes.
- 
+* All build-shootout shell scripts must be treated as black boxes. any file listed before `--` is treated as an input, any file after is an output. Functions like `gcc`, `cat`, `xargs` and `cp` are the standard Posix utilities.
+
 If a build system requires restarting, which requires rechecking all previously checked dependency files but not running any expensive commands, it is considered a partial pass.
 
 Performance is deliberately not measured as all actions are specified via shell scripts to make the results as similar as possible - even if some of the build systems would not use that approach.
@@ -24,7 +24,7 @@ Performance is deliberately not measured as all actions are specified via shell 
 
 Given an input file, create an output file which is a copy of the input file. If the input file changes, or the output file is not present, the output file should be created.
 
-    basic-run input output
+    basic-run input -- output
 
 * Success: Make, Ninja, Shake
 
@@ -32,7 +32,7 @@ Given an input file, create an output file which is a copy of the input file. If
 
 Given two targets, build them in parallel.
 
-    parallel-run input1 output1; parallel-run input2 output2
+    parallel-run input1 -- output1; parallel-run input2 -- output2
 
 * Success: Make, Ninja, Shake
 
@@ -74,7 +74,7 @@ The monad series of tests are designed to probe the difference between applicati
 
 The second test is like the first, but the `list` file itself is generated.
 
-    monad2-run source list
+    monad2-run source -- list
     cat list | xargs cat > output
 
 * Success: Make, Ninja, Shake
@@ -83,8 +83,8 @@ The second test is like the first, but the `list` file itself is generated.
 
 The third test requires generating `list`, then generating the files `list` refers to.
 
-    monad3-run source list
-    monad3-gen gen                     # only if gen is in list
+    monad3-run source -- list
+    monad3-gen -- gen                   # only if gen is in list
     cat list | xargs cat > output
 
 * Success: Shake

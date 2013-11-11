@@ -8,4 +8,4 @@ main = shakeArgs shakeOptions $ do
 
     "list" *> \out -> do
         need ["source"]
-        cmd Shell "sh monad2-run source list"
+        cmd Shell "sh monad2-run source -- list"
