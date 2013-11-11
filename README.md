@@ -127,8 +127,13 @@ I believe that given a small amount of shell scripting glue (to run `system-gen`
 * Success: Shake
 * Unknown: Make, Ninja
 
-# Todo
-
-These are tests that I would like to write, but have not yet done so.
-
 ### pool: Limit the parallelism in a specific stage
+
+Run with a parallelism of 8, but limit a specific stage to no more than 2 concurrent runs.
+
+    pool-run input1 -- output1
+    pool-run input2 -- output2
+    pool-run input3 -- output3
+
+* Success: Ninja, Shake
+* Unknown: Make

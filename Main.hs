@@ -19,6 +19,7 @@ main = do
     test "unchanged" unchanged
     test "multiple" multiple
     test "system" system
+    test "pool" pool
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -154,3 +155,12 @@ system run = do
     run [Target "output", Contents "output" "foo", Contents ".log" "gen\nrun\ngen\n"]
     writeFile "system-data" "bar"
     run [Target "output", Contents "output" "bar", Contents ".log" "gen\nrun\ngen\ngen\nrun\n"]
+
+
+pool :: ([Opt] -> IO ()) -> IO ()
+pool run = do
+    writeFile "input1" "xyz"
+    writeFile "input2" "abc"
+    writeFile "input3" "def"
+    run [Parallel 8, Contents ".log" "start\nstart\nend\nstart\nend\nend\n"]
+    run [NoChange]

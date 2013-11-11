@@ -1,0 +1,11 @@
+
+pool limit
+    depth = 2
+
+rule run
+    command = sh pool-run $in -- $out
+    pool = limit
+
+build output1: run input1
+build output2: run input2
+build output3: run input3
