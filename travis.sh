@@ -5,7 +5,7 @@ git clone https://github.com/ndmitchell/shake
 # Install Ninja
 git clone https://github.com/martine/ninja
 (cd ninja && ./bootstrap.py)
-export PATH=$PATH:ninja
+export PATH=$PATH:`pwd`/ninja
 
 # Run the tests
 runhaskell Main
