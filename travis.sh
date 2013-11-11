@@ -8,4 +8,6 @@ git clone https://github.com/martine/ninja
 export PATH=$PATH:`pwd`/ninja
 
 # Run the tests
-runhaskell Main
+runhaskell Main shake
+runhaskell Main make
+runhaskell Main ninja
