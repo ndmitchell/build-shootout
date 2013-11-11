@@ -126,7 +126,7 @@ opt _ (Contents file x) = return $ do
     when (src /= x) $ error $
         "File is wrong: " ++ file ++ "\n" ++
         "Expected: " ++ show x ++ "\n" ++
-        "Got: " ++ show src
+        "Got     : " ++ show src
 opt _ NoChange = do
     dir <- getDirectoryContents "."
     times <- mapM modTime dir
