@@ -1,5 +1,7 @@
 # Build System Shootout
 
+[![Build Status](https://travis-ci.org/ndmitchell/build-shootout.png)](https://travis-ci.org/ndmitchell/build-shootout)
+
 This project attempts to clarify the relative power of various build systems. Compared to the [Computer Language Shootout](http://benchmarksgame.alioth.debian.org/), this Shootout attempts to answer whether a build system is capable of expressing a particular dependency structure, but does not measure performance. The following build systems have at least one entry:
 
 * [Make](http://www.gnu.org/software/make/) (GNU version), cross-platform
