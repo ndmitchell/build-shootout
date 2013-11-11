@@ -1,5 +1,4 @@
 import Development.Shake
-import Development.Shake.Command
 
 main = shakeArgs shakeOptions $ do
     want ["output"]

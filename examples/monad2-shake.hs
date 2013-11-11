@@ -1,5 +1,4 @@
 import Development.Shake
-import Development.Shake.FilePath
 
 main = shakeArgs shakeOptions $ do
     "output" *> \out -> do
