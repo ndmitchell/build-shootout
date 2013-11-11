@@ -102,9 +102,18 @@ In some cases `input` will change, but `source` will not change in response. It 
 * Success: Ninja, Shake
 * Unknown: Make
 
-# Todo
+### multiple: Rules with multiple outputs
 
-These are tests that I would like to write, but have not yet done so.
+In some cases one output will change, but not the other.
+
+    multiple-gen input -- source1 source2
+    multiple-run source1 -- output1
+    multiple-run source2 -- output2
+
+I believe this test can be written on top of `unchanged`, by encoding the dependencies appropriately.
+
+* Success: Ninja, Shake
+* Unknown: Make
 
 ### system: Dependency on system information
 
@@ -116,6 +125,7 @@ Introduce a dependency on a piece of system information that is not stored on th
 
 ### multiple: Rules with multiple outputs 
 
+# Todo
 ### directory: Build all C files in a directory
 
 Build all C files in a directory and link them together. Not yet implemented.

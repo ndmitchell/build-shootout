@@ -17,6 +17,7 @@ main = do
     test "monad2" monad2
     test "monad3" monad3
     test "unchanged" unchanged
+    test "multiple" multiple
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -126,3 +127,19 @@ unchanged run = do
     writeFile "input" "bar is out here"
     run [Target "output", Contents "source" "bar is out here", Contents "output" "bar xs out here", Contents ".log" "run\nrun\n"]
     run [Target "output", NoChange]
+
+
+multiple :: ([Opt] -> IO ()) -> IO ()
+multiple run = do
+    writeFile "source1" "none"
+    writeFile "source2" "none"
+    writeFile "input" "abbc"
+    run [Target "output1", Target "output2", Contents "output1" "AbbC", Contents "output2" "aBBC", Contents ".log" "run\nrun\n"]
+    run [Target "output1", Target "output2", NoChange]
+    writeFile "input" "aBBc"
+    run [Target "output1", Target "output2", Contents "output1" "ABBC", Contents "output2" "aBBC", Contents ".log" "run\nrun\nrun\n"]
+    run [Target "output1", NoChange]
+    writeFile "input" "ab"
+    run [Target "output1", Contents "output1" "Ab", Contents "output2" "aBBC"]
+    run [Target "output2", Contents "output1" "Ab", Contents "output2" "aB"]
+    run [Target "output1", Target "output2", NoChange]

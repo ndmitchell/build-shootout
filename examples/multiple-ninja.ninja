@@ -1,0 +1,12 @@
+
+rule run
+    command = sh multiple-run $in -- $out
+
+build output1: run source1
+build output2: run source2
+
+rule gen
+    command = sh multiple-gen $in -- $out
+    restat = 1
+
+build source1 source2: gen input

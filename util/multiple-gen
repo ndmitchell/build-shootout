@@ -1,0 +1,12 @@
+sed 's/a/A/g' $1 > $3.tmp
+A=`cat $3`
+B=`cat $3.tmp`
+if [ "$A" != "$B" ] ; then
+    cp $3.tmp $3
+fi
+sed 's/b/B/g' $1 > $4.tmp
+A=`cat $4`
+B=`cat $4.tmp`
+if [ "$A" != "$B" ] ; then
+    cp $4.tmp $4
+fi

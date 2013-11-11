@@ -1,0 +1,2 @@
+echo run >> .log
+sed 's/c/C/g' $1 > $3
