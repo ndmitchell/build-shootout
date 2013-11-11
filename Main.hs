@@ -69,7 +69,7 @@ spaces run = do
 
 monad1 :: ([Opt] -> IO ()) -> IO ()
 monad1 run = do
-    writeFile "list" "input1\ninput2\n"
+    writeBinary "list" "input1\ninput2\n"
     writeFile "input1" "test"
     writeFile "input2" "again"
     run [Target "output", Contents "output" "testagain"]
@@ -77,7 +77,7 @@ monad1 run = do
     writeFile "input1" "more"
     run [Target "output", Contents "output" "moreagain"]
     run [Target "output", NoChange]
-    writeFile "list" "input1\n"
+    writeBinary "list" "input1\n"
     run [Target "output", Contents "output" "more"]
     run [Target "output", NoChange]
     writeFile "input2" "x"
@@ -86,7 +86,7 @@ monad1 run = do
 
 monad2 :: ([Opt] -> IO ()) -> IO ()
 monad2 run = do
-    writeFile "source" "output1\noutput2\n"
+    writeBinary "source" "output1\noutput2\n"
     writeFile "input1" "test"
     writeFile "input2" "again"
     run [Target "output", Contents "output" "testagain", Contents ".log" "run\n"]
@@ -94,7 +94,7 @@ monad2 run = do
     writeFile "input1" "more"
     run [Target "output", Contents "output" "moreagain"]
     run [Target "output", NoChange]
-    writeFile "source" "output1\n"
+    writeBinary "source" "output1\n"
     run [Target "output", Contents "output" "more", Contents ".log" "run\nrun\n"]
     run [Target "output", NoChange]
     writeFile "input2" "x"
@@ -103,11 +103,11 @@ monad2 run = do
 
 monad3 :: ([Opt] -> IO ()) -> IO ()
 monad3 run = do
-    writeFile "source" "output1\noutput2\n"
+    writeBinary "source" "output1\noutput2\n"
     writeFile "input1" "test"
     writeFile "input2" "again"
     run [Target "output", Contents "output" "testagain", Contents ".log" "run\n"]
     run [Target "output", NoChange, Contents ".log" "run\n", Missing "gen"]
-    writeFile "source" "gen\noutput2\n"
+    writeBinary "source" "gen\noutput2\n"
     run [Target "output", Contents "output" "Generated\nagain"]
     run [Target "output", NoChange]

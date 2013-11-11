@@ -5,7 +5,8 @@
 module Util(
     test, Opt(..),
     touch,
-    randomRIO
+    randomRIO,
+    writeBinary
     ) where
 
 import Control.Concurrent
@@ -34,6 +35,9 @@ data Opt
 data Tool = Ninja | Shake | Make
     deriving (Show,Eq,Enum,Bounded)
 
+
+writeBinary :: FilePath -> String -> IO ()
+writeBinary file out = withBinaryFile file WriteMode $ \h -> hPutStr h out
 
 filterArgs :: IO (String -> Bool, Tool -> Bool)
 filterArgs = do
