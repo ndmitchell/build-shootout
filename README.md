@@ -117,15 +117,18 @@ I believe this test can be written on top of `unchanged`, by encoding the depend
 
 ### system: Dependency on system information
 
-Introduce a dependency on a piece of system information that is not stored on the file system but must be recomputed every run.
+Introduce a dependency on a piece of system information that must be recomputed every run. In this scenario `system-gen` might be equivalent to `gcc --version` and `system-run` might be `gcc -c`. You must always test the `gcc` version, but only want to rebuild if it changes.
 
-### pool: Limit the parallelism in a specific stage
+    system-gen -- source           # must always be run
+    system-run source -- output    # must not run if source does not change
 
-### generate: Add dependencies generated later
+I believe that given a small amount of shell scripting glue (to run `system-gen`) this test can be written on top of `unchanged`.
 
-### multiple: Rules with multiple outputs 
+* Success: Shake
+* Unknown: Make, Ninja
 
 # Todo
-### directory: Build all C files in a directory
 
-Build all C files in a directory and link them together. Not yet implemented.
+These are tests that I would like to write, but have not yet done so.
+
+### pool: Limit the parallelism in a specific stage

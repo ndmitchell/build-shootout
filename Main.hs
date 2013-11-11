@@ -18,6 +18,7 @@ main = do
     test "monad3" monad3
     test "unchanged" unchanged
     test "multiple" multiple
+    test "system" system
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -143,3 +144,13 @@ multiple run = do
     run [Target "output1", Contents "output1" "Ab", Contents "output2" "aBBC"]
     run [Target "output2", Contents "output1" "Ab", Contents "output2" "aB"]
     run [Target "output1", Target "output2", NoChange]
+
+
+system :: ([Opt] -> IO ()) -> IO ()
+system run = do
+    writeFile "system-data" "foo"
+    writeFile "source" "none"
+    run [Target "output", Contents "output" "foo", Contents ".log" "gen\nrun\n"]
+    run [Target "output", Contents "output" "foo", Contents ".log" "gen\nrun\ngen\n"]
+    writeFile "system-data" "bar"
+    run [Target "output", Contents "output" "bar", Contents ".log" "gen\nrun\ngen\ngen\nrun\n"]
