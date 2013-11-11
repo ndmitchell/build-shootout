@@ -92,6 +92,16 @@ The third test requires generating `list`, then generating the files `list` refe
 * Success: Shake
 * Unknown: Make, Ninja
 
+### unchanged: Handle files which do not change
+
+In some cases `input` will change, but `source` will not change in response. It is important that in these cases `output` is not regenerated.
+
+    unchanged-gen input -- source
+    unchanged-run source -- output
+
+* Success: Ninja, Shake
+* Unknown: Make
+
 # Todo
 
 These are tests that I would like to write, but have not yet done so.
@@ -103,8 +113,6 @@ Introduce a dependency on a piece of system information that is not stored on th
 ### pool: Limit the parallelism in a specific stage
 
 ### generate: Add dependencies generated later
-
-### unchanged: Handle files which do not change
 
 ### multiple: Rules with multiple outputs 
 

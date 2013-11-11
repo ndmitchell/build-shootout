@@ -1,0 +1,11 @@
+
+rule run
+    command = sh unchanged-run $in -- $out
+
+build output: run source
+
+rule gen
+    command = sh unchanged-gen $in -- $out
+    restat = 1
+
+build source: gen input

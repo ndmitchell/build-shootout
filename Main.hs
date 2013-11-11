@@ -16,6 +16,7 @@ main = do
     test "monad1" monad1
     test "monad2" monad2
     test "monad3" monad3
+    test "unchanged" unchanged
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -110,4 +111,18 @@ monad3 run = do
     run [Target "output", NoChange, Contents ".log" "run\n", Missing "gen"]
     writeBinary "source" "gen\noutput2\n"
     run [Target "output", Contents "output" "Generated\nagain"]
+    run [Target "output", NoChange]
+
+
+unchanged :: ([Opt] -> IO ()) -> IO ()
+unchanged run = do
+    writeFile "source" "none"
+    writeFile "input" "foo is in here"
+    run [Target "output", Contents "source" "foo is out here", Contents "output" "foo xs out here", Contents ".log" "run\n"]
+    run [Target "output", NoChange]
+    writeFile "input" "bar is in here"
+    run [Target "output", Contents "source" "bar is out here", Contents "output" "bar xs out here", Contents ".log" "run\nrun\n"]
+    run [Target "output", NoChange]
+    writeFile "input" "bar is out here"
+    run [Target "output", Contents "source" "bar is out here", Contents "output" "bar xs out here", Contents ".log" "run\nrun\n"]
     run [Target "output", NoChange]
