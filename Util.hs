@@ -10,7 +10,7 @@ module Util(
     ) where
 
 import Control.Concurrent
-import Control.Exception
+import Control.Exception as E
 import Control.Monad
 import Data.Char
 import Data.List
@@ -59,16 +59,33 @@ test name f = do
     ts <- findTools name
     forM_ ts $ \t -> when (filtName name && filtTool t) $ do
         putStr $ "## " ++ name ++ " " ++ lcase (show t) ++ " ... "
-        let clean = catch (removeDirectoryRecursive "temp") $ \(_ :: SomeException) -> return ()
-        clean
-        createDirectoryIfMissing True "temp"
+        killDir "temp"
+        createDir "temp"
         forM_ ["examples","util"] $ \dir -> do
             xs <- getDirectoryContents dir
             sequence_ [copyFile (dir </> x) ("temp" </> x) | x <- xs, (name ++ "-") `isPrefixOf` x]
         withCurrentDirectory "temp" $ do
             f $ run name t
-        clean -- deliberately don't clean up on failure
+        killDir "temp" -- deliberately don't clean up on failure
         putStrLn $ "Success"
+
+killDir :: FilePath -> IO ()
+killDir x = retryIO (fmap not $ doesDirectoryExist x) $ removeDirectoryRecursive x
+
+createDir :: FilePath -> IO ()
+createDir x = retryIO (doesDirectoryExist x) $ createDirectoryIfMissing True x
+
+retryIO :: IO Bool -> IO () -> IO ()
+retryIO test act = f 4
+    where
+        pause = threadDelay 100000
+        f 0 = act >> pause
+        f i = do b <- test
+                 unless b $ do
+                    E.catch act $ \(_ :: SomeException) -> return ()
+                    pause
+                    f (i-1)
+
 
 
 touch :: FilePath -> IO ()
