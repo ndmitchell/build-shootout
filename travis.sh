@@ -1,0 +1,1 @@
+runhaskell Main shake make
