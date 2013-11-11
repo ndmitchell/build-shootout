@@ -141,7 +141,7 @@ withCurrentDirectory dir act = do
 system_ :: String -> IO ()
 system_ cmd = do
     r <- system cmd
-    when (r /= ExitSuccess) $ error "System command failed"
+    when (r /= ExitSuccess) $ error $ "System command failed: " ++ cmd
 
 
 replace :: String -> String -> String -> String
