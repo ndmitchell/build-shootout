@@ -8,6 +8,8 @@ This project attempts to clarify the relative power of various build systems. Co
 * [Ninja](http://martine.github.io/ninja/), cross-platform
 * [Shake](https://github.com/ndmitchell/shake#readme), cross-platform
 
+All build scripts are in the [examples directory](https://github.com/ndmitchell/build-shootout/tree/master/examples), as <tt><i>testname</i>-<i>buildsystem</i></tt>. You can run all the examples with `runhaskell Main` (after installing the [Haskell Platform](http://www.haskell.org/platform/), Ninja and Shake).
+
 Below are a list of tests, a description of the test, and a list of build systems that can implement the test, and a list of those that are currently believed to lack the power to implement the test. The tests have pseudo-code for the equivalent untracked straight-line shell script.
 
 To pass a test the build system must:
@@ -20,7 +22,17 @@ To pass a test the build system must:
 
 If a build system requires restarting, which requires rechecking all previously checked dependency files but not running any expensive commands, it is considered a partial pass.
 
-Performance is deliberately not measured as all actions are specified via shell scripts to make the results as similar as possible - even if some of the build systems would not use that approach.
+Performance is deliberately not measured as all actions are specified via shell scripts to make the results as similar as possible - even if some of the build systems would not normally use that approach.
+
+#### Contributions
+
+I welcome contributions, including:
+
+* Examples in different build systems
+* New implementations for existing build systems
+* New test cases (provided they show something interesting)
+
+## Test cases
 
 ### basic: Basic dependency
 
