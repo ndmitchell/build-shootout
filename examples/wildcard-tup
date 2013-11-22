@@ -1,2 +1,1 @@
-
 : foreach *.in |> cp %g.in %g.out |> %g.out
