@@ -139,14 +139,22 @@ opt _ NoChange = do
     times <- mapM modTime dir
     return $ do
         dir2 <- getDirectoryContents "."
-        when (dir /= dir2) $ error "Contents changed"
+        same "List of files changed" dir dir2
         times2 <- mapM modTime dir
-        when (times /= times2) $ error "Files were modified"
+        same "File was modified" (zip dir times) (zip dir2 times2)
 opt _ (Change file) = do
     a <- modTime file
     return $ do
         b <- modTime file
         when (a == b) $ error "File did not change"
+
+
+same :: (Show a, Eq a) => String -> [a] -> [a] -> IO ()
+same msg a b | null add && null del = return ()
+             | otherwise = error $ msg ++ "\nOld values: " ++ show del ++ "\nNew values: " ++ show add
+    where
+        add = b \\ a
+        del = a \\ b
 
 
 modTime :: FilePath -> IO (Maybe String)
