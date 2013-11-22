@@ -77,7 +77,7 @@ createDir :: FilePath -> IO ()
 createDir x = retryIO (doesDirectoryExist x) $ createDirectoryIfMissing True x
 
 retryIO :: IO Bool -> IO () -> IO ()
-retryIO test act = f 4
+retryIO test act = f 20
     where
         pause = threadDelay 100000
         f 0 = act >> pause
