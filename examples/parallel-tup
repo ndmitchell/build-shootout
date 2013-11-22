@@ -1,0 +1,4 @@
+
+: |> sh parallel-run input1 -- output1 |> output1
+: |> sh parallel-run input2 -- output2 |> output2
+

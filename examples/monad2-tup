@@ -1,0 +1,3 @@
+: |> monad2-run source -- %o |> list
+: |> cat list | xargs cat > %o |> output
+

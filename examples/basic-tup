@@ -1,0 +1,2 @@
+
+: input |> sh basic-run input -- output |> output

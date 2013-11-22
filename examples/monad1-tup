@@ -1,0 +1,2 @@
+: |> cat list | xargs cat > %o |> output
+
