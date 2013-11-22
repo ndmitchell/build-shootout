@@ -88,7 +88,6 @@ retryIO test act = f 4
                     f (i-1)
 
 
-
 touch :: FilePath -> IO ()
 touch file = do
     src <- readFile file
