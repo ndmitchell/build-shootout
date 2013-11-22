@@ -99,7 +99,7 @@ touch file = do
 findTools :: String -> IO [Tool]
 findTools name = do
     xs <- getDirectoryContents "examples"
-    let ts = [v | x <- xs, Just v <- [stripPrefix (name ++ "-") $ dropExtensions x]]
+    let ts = [v | x <- xs, takeExtension x /= ".broken", Just v <- [stripPrefix (name ++ "-") $ dropExtensions x]]
     return [x | x <- [minBound..maxBound], map toLower (show x) `elem` ts]
 
 
