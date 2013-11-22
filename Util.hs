@@ -116,6 +116,9 @@ run name tool opts = do
                 writeFile "Tupfile.ini" ""
                 copyFile (name ++ "-tup")  "Tupfile"
                 system_ "tup > /dev/null"
+                removeDirectoryRecursive ".tup"
+                removeFile "Tupfile.ini"
+                removeFile "Tupfile"
     sequence_ xs
 
 
