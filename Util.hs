@@ -115,6 +115,9 @@ run name tool opts = do
         Ninja -> system_ $ "sh -c \"ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ replace "\"" "\\\"" target ++ " > /dev/null\""
         Tup -> do
                 writeFile "Tupfile.ini" ""
+                b <- doesDirectoryExist ".tup"
+                unless b $ system_ $ "tup init > " ++ devNull
+                writeFile ".tup/options" "[updater]\nwarnings = 0"
                 copyFile (name ++ "-tup")  "Tupfile"
                 system_ $ "tup > " ++ devNull
                 removeFile "Tupfile.ini"
