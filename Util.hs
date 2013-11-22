@@ -20,6 +20,7 @@ import System.Environment
 import System.Exit
 import System.FilePath
 import System.IO
+import System.Info
 import System.Random
 
 
@@ -115,10 +116,16 @@ run name tool opts = do
         Tup -> do
                 writeFile "Tupfile.ini" ""
                 copyFile (name ++ "-tup")  "Tupfile"
-                system_ "tup > /dev/null"
+                system_ $ "tup > " ++ devNull
                 removeFile "Tupfile.ini"
                 removeFile "Tupfile"
     sequence_ xs
+
+windows :: Bool
+windows = os == "mingw32"
+
+devNull :: String
+devNull = if windows then "nul" else "/dev/null"
 
 
 opt :: Tool -> Opt -> IO (IO ())
