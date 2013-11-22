@@ -1,0 +1,1 @@
+: |> cp input\ file output\ file |> output\ file
