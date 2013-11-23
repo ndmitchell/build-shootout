@@ -1,3 +1,3 @@
-: |> monad2-run source -- %o |> list
-: |> cat list | xargs cat > %o |> output
+: source |> sh monad2-run %f -- %o |> list
+: list |> cat %f | xargs cat > %o |> output
 

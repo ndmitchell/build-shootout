@@ -1,9 +1,11 @@
+#!/usr/bin/env runhaskell
 
 -- | A test script to check those build systems claiming to implement a test
 --   do in fact do so.
 module Main(main) where
 
 import Util
+import System.Directory
 
 
 main :: IO ()
@@ -30,6 +32,8 @@ basic run = do
     writeFile "input" "abc"
     run [Contents "output" "abc"]
     run [NoChange]
+    removeFile "input"
+    removeFile "output"
 
 
 parallel :: ([Opt] -> IO ()) -> IO ()
@@ -38,6 +42,10 @@ parallel run = do
     writeFile "input2" "abc"
     run [Parallel 2, Contents ".log" "start\nstart\nend\nend\n"]
     run [NoChange]
+    removeFile "input1"
+    removeFile "input2"
+    removeFile "output1"
+    removeFile "output2"
 
 
 include :: ([Opt] -> IO ()) -> IO ()
@@ -103,6 +111,10 @@ monad2 run = do
     run [Target "output", NoChange]
     writeFile "input2" "x"
     run [Target "output", NoChange, Contents ".log" "run\nrun\n"]
+    removeFile "input1"
+    removeFile "input2"
+    removeFile "output"
+    removeFile "source"
 
 
 monad3 :: ([Opt] -> IO ()) -> IO ()

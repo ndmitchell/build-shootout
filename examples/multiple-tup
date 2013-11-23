@@ -1,0 +1,4 @@
+:|> multiple-gen input -- %o |> source1 source 2
+:|> multiple-run source1 -- %o |> output1
+:|> multiple-run source2 -- %o |> output2
+
