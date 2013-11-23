@@ -1,11 +1,11 @@
-sed 's/in/out/g' $1 > $3.tmp
-B=`cat $3.tmp`
+sed 's/in/out/g' $1 > .tmp.$3
 if [ -f $3 ];
 then
   A=`cat $3`
 else
   A=_does_not_exist_
 fi
+B=`cat .tmp.$3`
 if [ "$A" != "$B" ] ; then
-    cp $3.tmp $3
+    cp .tmp.$3 $3
 fi
