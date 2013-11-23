@@ -20,6 +20,7 @@ import System.Environment
 import System.Exit
 import System.FilePath
 import System.IO
+import System.Info
 import System.Random
 
 
@@ -76,7 +77,7 @@ createDir :: FilePath -> IO ()
 createDir x = retryIO (doesDirectoryExist x) $ createDirectoryIfMissing True x
 
 retryIO :: IO Bool -> IO () -> IO ()
-retryIO test act = f 4
+retryIO test act = f 20
     where
         pause = threadDelay 100000
         f 0 = act >> pause
@@ -85,7 +86,6 @@ retryIO test act = f 4
                     E.catch act $ \(_ :: SomeException) -> return ()
                     pause
                     f (i-1)
-
 
 
 touch :: FilePath -> IO ()
@@ -98,7 +98,7 @@ touch file = do
 findTools :: String -> IO [Tool]
 findTools name = do
     xs <- getDirectoryContents "examples"
-    let ts = [v | x <- xs, Just v <- [stripPrefix (name ++ "-") $ dropExtensions x]]
+    let ts = [v | x <- xs, takeExtension x /= ".broken", Just v <- [stripPrefix (name ++ "-") $ dropExtensions x]]
     return [x | x <- [minBound..maxBound], map toLower (show x) `elem` ts]
 
 
@@ -114,11 +114,20 @@ run name tool opts = do
         Ninja -> system_ $ "sh -c \"ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ replace "\"" "\\\"" target ++ " > /dev/null\""
         Tup -> do
                 writeFile "Tupfile.ini" ""
+                b <- doesDirectoryExist ".tup"
+                unless b $ system_ $ "tup init > " ++ devNull
+                writeFile ".tup/options" "[updater]\nwarnings = 0"
                 copyFile (name ++ "-tup")  "Tupfile"
-                system_ "tup > /dev/null"
+                system_ $ "tup > " ++ devNull
                 removeFile "Tupfile.ini"
                 removeFile "Tupfile"
     sequence_ xs
+
+windows :: Bool
+windows = os == "mingw32"
+
+devNull :: String
+devNull = if windows then "nul" else "/dev/null"
 
 
 opt :: Tool -> Opt -> IO (IO ())
