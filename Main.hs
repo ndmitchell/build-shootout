@@ -1,3 +1,4 @@
+#!/usr/bin/env runhaskell
 
 -- | A test script to check those build systems claiming to implement a test
 --   do in fact do so.
