@@ -1,4 +1,3 @@
-
-: |> sh parallel-run input1 -- output1 |> output1
-: |> sh parallel-run input2 -- output2 |> output2
+: input1 |> sh parallel-run %f -- %o |> output1
+: input2 |> sh parallel-run %f -- %o |> output2
 
