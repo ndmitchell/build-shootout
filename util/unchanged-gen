@@ -1,6 +1,11 @@
 sed 's/in/out/g' $1 > $3.tmp
-A=`cat $3`
 B=`cat $3.tmp`
+if [ -f $3 ];
+then
+  A=`cat $3`
+else
+  A=_does_not_exist_
+fi
 if [ "$A" != "$B" ] ; then
     cp $3.tmp $3
 fi

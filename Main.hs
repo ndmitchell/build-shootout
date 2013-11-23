@@ -120,7 +120,6 @@ monad3 run = do
 
 unchanged :: ([Opt] -> IO ()) -> IO ()
 unchanged run = do
-    writeFile "source" "none"
     writeFile "input" "foo is in here"
     run [Target "output", Contents "source" "foo is out here", Contents "output" "foo xs out here", Contents ".log" "run\n"]
     run [Target "output", NoChange]
