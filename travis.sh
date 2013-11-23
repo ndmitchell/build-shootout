@@ -9,6 +9,7 @@ export PATH=$PATH:`pwd`/ninja
 
 # Install tup
 sudo apt-get install libfuse-dev
+modprobe fuse
 git clone https://github.com/gittup/tup
 (cd tup && ./bootstrap.sh)
 export PATH=$PATH:`pwd`/tup
