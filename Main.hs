@@ -133,8 +133,6 @@ unchanged run = do
 
 multiple :: ([Opt] -> IO ()) -> IO ()
 multiple run = do
-    writeFile "source1" "none"
-    writeFile "source2" "none"
     writeFile "input" "abbc"
     run [Target "output1", Target "output2", Contents "output1" "AbbC", Contents "output2" "aBBC", Contents ".log" "run\nrun\n"]
     run [Target "output1", Target "output2", NoChange]

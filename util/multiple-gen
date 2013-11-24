@@ -1,11 +1,21 @@
 sed 's/a/A/g' $1 > .tmp.$3
-A=`cat $3`
+if [ -f $3 ];
+then
+  A=`cat $3`
+else
+  A=_does_not_exist_
+fi
 B=`cat .tmp.$3`
 if [ "$A" != "$B" ] ; then
     cp .tmp.$3 $3
 fi
 sed 's/b/B/g' $1 > .tmp.$4
-A=`cat $4`
+if [ -f $4 ];
+then
+  A=`cat $4`
+else
+  A=_does_not_exist_
+fi
 B=`cat .tmp.$4`
 if [ "$A" != "$B" ] ; then
     cp .tmp.$4 $4
