@@ -33,7 +33,7 @@ data Opt
     | Target FilePath
 
 
-data Tool = Tup | Ninja | Shake | Make
+data Tool = Tup | Ninja | Shake | Make | Fabricate
     deriving (Show,Eq,Enum,Bounded)
 
 
@@ -119,6 +119,7 @@ run name tool opts = do
                 copyFile (name ++ "-tup")  "Tupfile"
                 system_ $ "tup > " ++ devNull
                 removeFile "Tupfile"
+        Fabricate -> do system_ $ "python " ++ name ++ "-fabricate.py"
     sequence_ xs
 
 windows :: Bool
