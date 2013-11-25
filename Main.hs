@@ -37,8 +37,7 @@ parallel :: ([Opt] -> IO ()) -> IO ()
 parallel run = do
     writeFile "input1" "xyz"
     writeFile "input2" "abc"
-    writeFile "../.log" ""
-    run [Parallel 2, Contents "../.log" "start\nstart\nend\nend\n"]
+    run [Parallel 2, Log "start start end end"]
     run [NoChange]
 
 
@@ -95,16 +94,16 @@ monad2 run = do
     writeBinary "source" "output1\noutput2\n"
     writeFile "input1" "test"
     writeFile "input2" "again"
-    run [Target "output", Contents "output" "testagain", Contents ".log" "run\n"]
-    run [Target "output", NoChange, Contents ".log" "run\n"]
+    run [Target "output", Contents "output" "testagain", Log "run"]
+    run [Target "output", NoChange, Log "run"]
     writeFile "input1" "more"
     run [Target "output", Contents "output" "moreagain"]
     run [Target "output", NoChange]
     writeBinary "source" "output1\n"
-    run [Target "output", Contents "output" "more", Contents ".log" "run\nrun\n"]
+    run [Target "output", Contents "output" "more", Log "run run"]
     run [Target "output", NoChange]
     writeFile "input2" "x"
-    run [Target "output", NoChange, Contents ".log" "run\nrun\n"]
+    run [Target "output", NoChange, Log "run run"]
 
 
 monad3 :: ([Opt] -> IO ()) -> IO ()
@@ -112,8 +111,8 @@ monad3 run = do
     writeBinary "source" "output1\noutput2\n"
     writeFile "input1" "test"
     writeFile "input2" "again"
-    run [Target "output", Contents "output" "testagain", Contents ".log" "run\n"]
-    run [Target "output", NoChange, Contents ".log" "run\n", Missing "gen"]
+    run [Target "output", Contents "output" "testagain", Log "run"]
+    run [Target "output", NoChange, Log "run", Missing "gen"]
     writeBinary "source" "gen\noutput2\n"
     run [Target "output", Contents "output" "Generated\nagain"]
     run [Target "output", NoChange]
@@ -122,23 +121,23 @@ monad3 run = do
 unchanged :: ([Opt] -> IO ()) -> IO ()
 unchanged run = do
     writeFile "input" "foo is in here"
-    run [Target "output", Contents "source" "foo is out here", Contents "output" "foo xs out here", Contents ".log" "run\n"]
+    run [Target "output", Contents "source" "foo is out here", Contents "output" "foo xs out here", Log "run"]
     run [Target "output", NoChange]
     writeFile "input" "bar is in here"
-    run [Target "output", Contents "source" "bar is out here", Contents "output" "bar xs out here", Contents ".log" "run\nrun\n"]
+    run [Target "output", Contents "source" "bar is out here", Contents "output" "bar xs out here", Log "run run"]
     run [Target "output", NoChange]
     writeFile "input" "bar is out here"
-    run [Target "output", Contents "source" "bar is out here", Contents "output" "bar xs out here", Contents ".log" "run\nrun\n"]
+    run [Target "output", Contents "source" "bar is out here", Contents "output" "bar xs out here", Log "run run"]
     run [Target "output", NoChange]
 
 
 multiple :: ([Opt] -> IO ()) -> IO ()
 multiple run = do
     writeFile "input" "abbc"
-    run [Target "output1", Target "output2", Contents "output1" "AbbC", Contents "output2" "aBBC", Contents ".log" "run\nrun\n"]
+    run [Target "output1", Target "output2", Contents "output1" "AbbC", Contents "output2" "aBBC", Log "run run"]
     run [Target "output1", Target "output2", NoChange]
     writeFile "input" "aBBc"
-    run [Target "output1", Target "output2", Contents "output1" "ABBC", Contents "output2" "aBBC", Contents ".log" "run\nrun\nrun\n"]
+    run [Target "output1", Target "output2", Contents "output1" "ABBC", Contents "output2" "aBBC", Log "run run run"]
     run [Target "output1", NoChange]
     writeFile "input" "ab"
     run [Target "output1", Contents "output1" "Ab", Contents "output2" "aBBC"]
@@ -150,10 +149,10 @@ system :: ([Opt] -> IO ()) -> IO ()
 system run = do
     writeFile "system-data" "foo"
     writeFile "source" "none"
-    run [Target "output", Contents "output" "foo", Contents ".log" "gen\nrun\n"]
-    run [Target "output", Contents "output" "foo", Contents ".log" "gen\nrun\ngen\n"]
+    run [Target "output", Contents "output" "foo", Log "gen run"]
+    run [Target "output", Contents "output" "foo", Log "gen run gen"]
     writeFile "system-data" "bar"
-    run [Target "output", Contents "output" "bar", Contents ".log" "gen\nrun\ngen\ngen\nrun\n"]
+    run [Target "output", Contents "output" "bar", Log "gen run gen gen run"]
 
 
 pool :: ([Opt] -> IO ()) -> IO ()
@@ -161,5 +160,5 @@ pool run = do
     writeFile "input1" "xyz"
     writeFile "input2" "abc"
     writeFile "input3" "def"
-    run [Parallel 8, Contents ".log" "start\nstart\nend\nstart\nend\nend\n"]
+    run [Parallel 8, Log "start start end start end end"]
     run [NoChange]

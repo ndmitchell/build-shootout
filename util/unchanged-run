@@ -1,2 +1,2 @@
-echo run >> .log
+echo run >> ../.log
 sed 's/i/x/g' $1 > $3

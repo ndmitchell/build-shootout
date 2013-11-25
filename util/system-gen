@@ -1,4 +1,4 @@
-echo gen >> .log
+echo gen >> ../.log
 A=`cat $2`
 B=`cat system-data`
 if [ "$A" != "$B" ] ; then

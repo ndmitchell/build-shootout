@@ -1,6 +1,6 @@
-echo start >> .log
+echo start >> ../.log
 if [ "$3" = "output1" ] ; then sleep 0.5s ; fi
 if [ "$3" = "output2" ] ; then sleep 1.0s ; fi
 if [ "$3" = "output3" ] ; then sleep 1.5s ; fi
 cp $1 $3
-echo end >> .log
+echo end >> ../.log

@@ -31,6 +31,7 @@ data Opt
     | Change FilePath
     | Parallel Int
     | Target FilePath
+    | Log String
 
 
 data Tool = Tup | Ninja | Shake | Make | Fabricate
@@ -65,9 +66,11 @@ test name f = do
         forM_ ["examples","util"] $ \dir -> do
             xs <- getDirectoryContents dir
             sequence_ [copyFile (dir </> x) ("temp" </> x) | x <- xs, (name ++ "-") `isPrefixOf` x]
+        writeFile ".log" ""
         withCurrentDirectory "temp" $ do
             f $ run name t
         killDir "temp" -- deliberately don't clean up on failure
+        removeFile ".log"
         putStrLn $ "Success"
 
 killDir :: FilePath -> IO ()
@@ -141,6 +144,12 @@ opt _ (Contents file x) = return $ do
         "File is wrong: " ++ file ++ "\n" ++
         "Expected: " ++ show x ++ "\n" ++
         "Got     : " ++ show src
+opt _ (Log x) = return $ do
+    src <- readFile "../.log"
+    when (lines src /= words x) $ error $
+        "File is wrong: ../.log\n" ++
+        "Expected: " ++ show x ++ "\n" ++
+        "Got     : " ++ show (unwords $ words src)
 opt _ NoChange = do
     dir <- getDirectoryContents "."
     times <- mapM modTime dir

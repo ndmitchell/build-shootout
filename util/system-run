@@ -1,2 +1,2 @@
-echo run >> .log
+echo run >> ../.log
 cp $1 $3
