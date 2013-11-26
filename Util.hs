@@ -120,7 +120,7 @@ run name tool opts = do
                 unless b $ system_ $ "tup init > " ++ devNull
                 writeFile ".tup/options" "[updater]\nwarnings = 0"
                 copyFile (name ++ "-tup")  "Tupfile"
-                system_ $ "tup -j" ++ show p ++ " > " ++ devNull
+                system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
                 removeFile "Tupfile"
         Fabricate -> do system_ $ "python " ++ name ++ "-fabricate.py"
     sequence_ xs
