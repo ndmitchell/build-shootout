@@ -1,3 +1,3 @@
-: input |> sh multiple-gen input -- %o |> source1 source2
+: input |> ^o^ sh multiple-gen input -- %o |> source1 source2
 : source1 |> sh multiple-run source1 -- %o |> output1
 : source2 |> sh multiple-run source2 -- %o |> output2
