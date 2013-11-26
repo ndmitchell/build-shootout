@@ -1,22 +1,19 @@
-sed 's/a/A/g' $1 > .tmp.$3
-if [ -f $3 ];
-then
-  A=`cat $3`
+if [ -f $3 ]; then
+    OLD=`cat $3`
 else
-  A=_does_not_exist_
+    OLD=_none_
 fi
-B=`cat .tmp.$3`
-if [ "$A" != "$B" ] ; then
-    cp .tmp.$3 $3
+NEW=`sed 's/a/A/g' $1`
+if [ "$OLD" != "$NEW" ] ; then
+    sed 's/a/A/g' $1 > $3
 fi
-sed 's/b/B/g' $1 > .tmp.$4
-if [ -f $4 ];
-then
-  A=`cat $4`
+
+if [ -f $4 ]; then
+    OLD=`cat $4`
 else
-  A=_does_not_exist_
+    OLD=_none_
 fi
-B=`cat .tmp.$4`
-if [ "$A" != "$B" ] ; then
-    cp .tmp.$4 $4
+NEW=`sed 's/b/B/g' $1`
+if [ "$OLD" != "$NEW" ] ; then
+    sed 's/b/B/g' $1 > $4
 fi
