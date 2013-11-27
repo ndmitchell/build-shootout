@@ -15,5 +15,9 @@ export PATH=$PATH:`pwd`/ninja
 # (cd tup && ./bootstrap.sh)
 # export PATH=$PATH:`pwd`/tup
 
+# Install fabricate
+wget https://fabricate.googlecode.com/git/fabricate.py
+export PYTHONPATH=$PWD/fabricate.py:$PYTHONPATH
+
 # Run the tests
-runhaskell Main shake make ninja
+runhaskell Main shake make ninja fabricate
