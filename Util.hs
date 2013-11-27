@@ -122,7 +122,7 @@ run name tool opts = do
                 copyFile (name ++ "-tup")  "Tupfile"
                 system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
                 removeFile "Tupfile"
-        Fabricate -> do system_ $ "python " ++ name ++ "-fabricate.py"
+        Fabricate -> do system_ $ "python " ++ name ++ "-fabricate.py --quiet -j" ++ show p ++ " " ++ target
     sequence_ xs
 
 windows :: Bool

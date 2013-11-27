@@ -17,11 +17,8 @@ export PATH=$PATH:`pwd`/ninja
 
 # Install fabricate
 wget https://fabricate.googlecode.com/git/fabricate.py
-echo $PYTHONPATH
 python --version
-echo $PWD
 export PYTHONPATH=$PWD:$PYTHONPATH
-echo $PYTHONPATH
 
 # Run the tests
 runhaskell Main shake make ninja fabricate
