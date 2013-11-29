@@ -4,7 +4,6 @@
 --   do in fact do so.
 module Util(
     test, Opt(..),
-    touch,
     randomRIO,
     writeBinary
     ) where
@@ -89,13 +88,6 @@ retryIO test act = f 20
                     E.catch act $ \(_ :: SomeException) -> return ()
                     pause
                     f (i-1)
-
-
-touch :: FilePath -> IO ()
-touch file = do
-    src <- readFile file
-    evaluate $ length src
-    writeFile file src
 
 
 findTools :: String -> IO [Tool]

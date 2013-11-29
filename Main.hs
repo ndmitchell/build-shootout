@@ -45,7 +45,7 @@ include :: ([Opt] -> IO ()) -> IO ()
 include run = do
     run [Change "main.o"]
     run [NoChange]
-    touch "include-2.h"
+    appendFile "include-2.h" "\n/* comment */"
     run [Change "main.o"]
     run [NoChange]
 
