@@ -1,4 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# OPTIONS_GHC -fwarn-unused-binds -fwarn-unused-imports #-}
 
 -- | A test script to check those build systems claiming to implement a test
 --   do in fact do so.
