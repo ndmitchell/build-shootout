@@ -21,4 +21,5 @@ python --version
 export PYTHONPATH=$PWD:$PYTHONPATH
 
 # Run the tests
+cabal install random
 runhaskell Main shake make ninja fabricate
