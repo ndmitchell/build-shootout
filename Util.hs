@@ -182,10 +182,3 @@ system_ :: String -> IO ()
 system_ cmd = do
     r <- system cmd
     when (r /= ExitSuccess) $ error $ "System command failed: " ++ cmd
-
-
-replace :: String -> String -> String -> String
-replace from to xs
-    | Just xs <- stripPrefix from xs = to ++ replace from to xs
-    | x:xs <- xs = x : replace from to xs
-    | otherwise = []
