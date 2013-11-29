@@ -17,7 +17,6 @@ export PATH=$PATH:`pwd`/ninja
 
 # Install fabricate
 wget https://fabricate.googlecode.com/git/fabricate.py
-python --version
 export PYTHONPATH=$PWD:$PYTHONPATH
 
 # Run the tests
