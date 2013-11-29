@@ -27,4 +27,5 @@ runhaskell --version
 which runhaskell
 which runghc
 runghc --version
+ghc --version
 runhaskell Main shake make ninja fabricate
