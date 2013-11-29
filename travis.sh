@@ -22,5 +22,9 @@ export PYTHONPATH=$PWD:$PYTHONPATH
 # Run the tests
 ghc-pkg expose random
 ghc-pkg list
+ghc-pkg --version
+runhaskell --version
 which runhaskell
+which runghc
+runghc --version
 runhaskell Main shake make ninja fabricate
