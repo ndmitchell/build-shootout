@@ -21,6 +21,14 @@ export PYTHONPATH=$PWD:$PYTHONPATH
 
 # Run the tests
 GHCPATH=`which ghc`
-export PATH=`dirname $GHCPATH`:$PATH
+GHCDIR=`dirname $GHCPATH`
+export PATH=$GHCDIR:$PATH
+ghc --version
+echo $GHCPATH
+echo $GHCDIR
+ls $GHCDIR
+$GHCDIR/runhaskell --version
+
+
 runhaskell --version
 runhaskell Main shake make ninja fabricate
