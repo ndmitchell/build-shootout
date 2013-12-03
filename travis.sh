@@ -20,5 +20,7 @@ wget https://fabricate.googlecode.com/git/fabricate.py
 export PYTHONPATH=$PWD:$PYTHONPATH
 
 # Run the tests
-ghc --make Main
-./Main shake make ninja fabricate
+GHCPATH=`which ghc`
+export PATH=`dirname $GHCPATH`:$PATH
+runhaskell --version
+runhaskell Main shake make ninja fabricate
