@@ -26,7 +26,7 @@ export PATH=$GHCDIR:$PATH
 ghc --version
 echo $GHCPATH
 echo $GHCDIR
-ls $GHCDIR
+ls -l $GHCDIR
 $GHCDIR/runhaskell --version
 which runhaskell
 
