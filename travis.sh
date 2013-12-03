@@ -20,19 +20,4 @@ wget https://fabricate.googlecode.com/git/fabricate.py
 export PYTHONPATH=$PWD:$PYTHONPATH
 
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
-
-# Run the tests
-GHCPATH=`which ghc`
-GHCDIR=`dirname $GHCPATH`
-export PATH=$GHCDIR:$PATH
-ghc --version
-echo $GHCPATH
-echo $GHCDIR
-ls -l $GHCDIR
-ls -l /home/travis/.ghc-multi/bin/
-ls -l /home/travis/.ghc-multi/7.6.3/bin/z
-$GHCDIR/runhaskell --version
-which runhaskell
-
-runhaskell --version
 runhaskell Main shake make ninja fabricate
