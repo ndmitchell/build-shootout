@@ -28,7 +28,7 @@ echo $GHCPATH
 echo $GHCDIR
 ls $GHCDIR
 $GHCDIR/runhaskell --version
-
+which runhaskell
 
 runhaskell --version
 runhaskell Main shake make ninja fabricate
