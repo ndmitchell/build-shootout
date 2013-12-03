@@ -27,6 +27,7 @@ ghc --version
 echo $GHCPATH
 echo $GHCDIR
 ls -l $GHCDIR
+ls -l /home/travis/.ghc-multi/bin/
 $GHCDIR/runhaskell --version
 which runhaskell
 
