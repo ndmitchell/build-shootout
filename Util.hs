@@ -41,12 +41,14 @@ data Tool = Tup | Ninja | Shake | Make | Fabricate
 writeBinary :: FilePath -> String -> IO ()
 writeBinary file out = withBinaryFile file WriteMode $ \h -> hPutStr h out
 
-filterArgs :: IO (String -> Bool, Tool -> Bool)
+filterArgs :: IO ([String], String -> Bool, Tool -> Bool)
 filterArgs = do
     xs <- getArgs
+    (args, xs) <- return $ partition ("-" `isPrefixOf`) xs
     let ts = [lcase $ show t| t :: Tool <- [minBound..maxBound]]
     let (tool,norm) = partition (`elem` ts) $ map lcase xs
-    return ((\x -> null norm || lcase x `elem` norm)
+    return (map (dropWhile (== '-')) args
+           ,(\x -> null norm || lcase x `elem` norm)
            ,(\x -> null tool || lcase (show x) `elem` tool))
 
 
@@ -56,7 +58,7 @@ lcase = map toLower
 
 test :: String -> (([Opt] -> IO ()) -> IO ()) -> IO ()
 test name f = do
-    (filtName, filtTool) <- filterArgs
+    (options, filtName, filtTool) <- filterArgs
     hSetBuffering stdout NoBuffering
     ts <- findTools name
     forM_ ts $ \t -> when (filtName name && filtTool t) $ do
@@ -67,11 +69,18 @@ test name f = do
             xs <- getDirectoryContents dir
             sequence_ [copyFile (dir </> x) ("temp" </> x) | x <- xs, (name ++ "-") `isPrefixOf` x]
         writeFile ".log" ""
-        withCurrentDirectory "temp" $ do
-            f $ run name t
+        withCurrentDirectory "temp" $
+            (if "continue" `elem` options then continue else id) $
+                f $ run name t
         killDir "temp" -- deliberately don't clean up on failure
         removeFile ".log"
         putStrLn $ "Success"
+
+
+continue :: IO () -> IO ()
+continue act = E.catch act $ \(e :: SomeException) -> print e >> putStrLn "<FAILURE>"
+
+
 
 killDir :: FilePath -> IO ()
 killDir x = retryIO (fmap not $ doesDirectoryExist x) $ removeDirectoryRecursive x

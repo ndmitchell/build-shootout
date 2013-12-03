@@ -20,4 +20,4 @@ wget https://fabricate.googlecode.com/git/fabricate.py
 export PYTHONPATH=$PWD:$PYTHONPATH
 
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
-runhaskell Main shake make ninja fabricate
+runhaskell Main shake make ninja fabricate --continue
