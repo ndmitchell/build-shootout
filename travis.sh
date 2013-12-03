@@ -20,12 +20,5 @@ wget https://fabricate.googlecode.com/git/fabricate.py
 export PYTHONPATH=$PWD:$PYTHONPATH
 
 # Run the tests
-ghc-pkg expose random
-ghc-pkg list
-ghc-pkg --version
-runhaskell --version
-which runhaskell
-which runghc
-runghc --version
-ghc --version
-runhaskell Main shake make ninja fabricate
+ghc --make Main
+./Main shake make ninja fabricate
