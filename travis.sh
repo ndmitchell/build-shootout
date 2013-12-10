@@ -22,4 +22,4 @@ export PYTHONPATH=$PWD:$PYTHONPATH
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
 runhaskell Main shake make ninja fabricate --continue
 
-runhaskell Main monad1 fabricate --verbose
+runhaskell Main monad1 fabricate --verbose --continue
