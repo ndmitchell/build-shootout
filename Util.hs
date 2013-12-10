@@ -32,6 +32,7 @@ data Opt
     | Parallel Int
     | Target FilePath
     | Log String
+      deriving Show
 
 
 data Tool = Tup | Ninja | Shake | Make | Fabricate
