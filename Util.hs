@@ -110,6 +110,8 @@ findTools name = do
 
 run :: String -> Tool -> [Opt] -> IO ()
 run name tool opts = do
+    verbose <- fmap ("--verbose" `elem`) getArgs
+    when verbose $ putStrLn $ "\n" ++ name ++ " " ++ show tool ++ " " ++ show opts
     xs <- mapM (opt tool) opts
     threadDelay 1000000
     let p = last $ 1 : [i | Parallel i <- opts]
@@ -125,7 +127,9 @@ run name tool opts = do
                 copyFile (name ++ "-tup")  "Tupfile"
                 system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
                 removeFile "Tupfile"
-        Fabricate -> do system_ $ "python " ++ name ++ "-fabricate.py --quiet -j" ++ show p ++ " " ++ target
+        Fabricate -> do
+            system_ $ "python " ++ name ++ "-fabricate.py" ++ (if verbose then "" else " --quiet") ++ " -j" ++ show p ++ " " ++ target
+            when verbose $ putStrLn =<< readFile ".deps"
     sequence_ xs
 
 windows :: Bool
