@@ -128,7 +128,7 @@ The third test requires generating `list`, then generating the files `list` refe
     cat list | xargs cat > output
 
 * fabricate: broken, implemented but doesn't pass the tests - no idea why
-* Make: unsure, no one has been able to implement it yet
+* **Make: success, requires automatic restarting**
 * Ninja: unsure, no one has been able to implement it yet
 * **Shake: success**
 * tup: unsure, no one has been able to implement it yet
