@@ -1,9 +1,11 @@
 output: list
 	cat `cat list` > output
 
+list.d: list
+	echo output: `cat list` > list.d
+
 list: source
 	sh monad3-run source -- list
-	echo output: `cat list` > list.d
 
 gen:
 	sh monad3-gen -- gen
