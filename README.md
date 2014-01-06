@@ -194,3 +194,32 @@ Run with a parallelism of 8, but limit a specific stage to no more than 2 concur
 * **Ninja: success**
 * **Shake: success**
 * tup: unsure, nothing I can see
+
+
+## Build System Power
+
+The intention of this project is to figure out what dependency features each build system offers, what power they give, and which features can be expressed in terms of others. This section is speculative and evolving.
+
+### Pre dependencies (applicative) [all but Fabricate]
+
+A pre dependency is one where you can introduce a dependency at the start, for example Make's `output: input`. Each output is allowed to express multiple dependencies, but they are all evaluated in isolation from each other.
+
+### Post dependencies [Ninja, Shake, tup]
+
+A post dependency is one where you introduce a dependency at the end, for example Ninja's `depfile`. These dependencies do not alter this build run, but will add dependencies for the next run.
+
+### Mid dependencies (monadic) [Shake, subsumes pre and post dependencies]
+
+A monadic dependency lets you introduce a new dependency while running an action after consulting previous dependencies, for example Shake's `need`.
+
+### Auto post dependencies [tup, subsumes post dependencies]
+
+An auto post dependency is one computed from what you actually used, rather than explicitly stated dependencies.
+
+### Auto cached commands [fabrciate]
+
+A cached command is where the inputs/outputs for a command are tracked, and the command is treated as a pure function and skipped if its inputs didn't change. This feature is more useful in build systems that go forward (from inputs to outputs) rather than the standard build systems that go from outputs to inputs.
+
+### Regenerate [Make]
+
+Make lets you regenerate the Makefile and then continue again. How that works is anyones guess.
