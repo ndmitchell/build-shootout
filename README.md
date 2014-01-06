@@ -2,11 +2,11 @@
 
 This project attempts to clarify the relative power of various build systems. Compared to the [Computer Language Shootout](http://benchmarksgame.alioth.debian.org/), this Shootout attempts to answer whether a build system is capable of expressing a particular dependency structure, but does not measure performance. The following build systems have at least one entry:
 
-* [fabricate](https://code.google.com/p/fabricate/), works on Linux, some Windows support on some machines, requires at least admin configuration on Vista and above.
 * [Make](http://www.gnu.org/software/make/) (GNU version), cross-platform.
 * [Ninja](http://martine.github.io/ninja/), cross-platform.
 * [Shake](https://github.com/ndmitchell/shake#readme), cross-platform.
-* [tup](http://gittup.org/tup/), cross-platform, but requires FUSE on Linux (does not work with [Travis](https://travis-ci.org/)).
+* [tup](http://gittup.org/tup/), cross-platform, requiring FUSE on Linux. Does not work with [Travis](https://travis-ci.org/) and cannot be compiled on Windows.
+* [fabricate](https://code.google.com/p/fabricate/), works on Linux, some Windows support on some machines, requires at least admin configuration on Vista and above. Works partially with [Travis](https://travis-ci.org/).
 
 All build scripts are in the [examples directory](https://github.com/ndmitchell/build-shootout/tree/master/examples), as <tt><i>testname</i>-<i>buildsystem</i></tt>. You can run all the examples with `runhaskell Main` (after installing the [Haskell Platform](http://www.haskell.org/platform/), and any build systems you want to run). Use the argument `make` to only run Make examples, or `basic` to only run the basic test. 
 
@@ -63,7 +63,7 @@ Given a C file, compile it, automatically figuring out any transitively included
 
     gcc main.o -c include-main.c -o main.o
 
-* fabricate: broken, implemented but doesn't pass the tests - no idea why
+* **fabricate: success**, but fails on Travis
 * **Make: success**
 * **Ninja: success**
 * **Shake: success**
@@ -87,7 +87,7 @@ Work with files including spaces.
 
     cp "input file" "output file"
 
-* fabricate: partial, generally works but requires custom code to get command line support for targets
+* fabricate: partial, generally works but requires custom code to get command line support for space-including targets
 * Make: failure, does not support files with spaces in them
 * **Ninja: success**
 * **Shake: success**
@@ -99,7 +99,7 @@ The monad series of tests are designed to probe the difference between applicati
 
     cat list | xargs cat > output
 
-* fabricate: broken, implemented but doesn't pass the tests - no idea why
+* **fabricate: success**, but fails on Travis
 * **Make: success**
 * **Ninja: success**
 * **Shake: success**
@@ -112,7 +112,7 @@ The second test is like the first, but the `list` file itself is generated.
     monad2-run source -- list
     cat list | xargs cat > output
 
-* fabricate: broken, implemented but doesn't pass the tests - no idea why
+* **fabricate: success**, but fails on Travis
 * **Make: success**
 * **Ninja: success**
 * **Shake: success**
@@ -127,7 +127,7 @@ The third test requires generating `list`, then generating the files `list` refe
     monad3-gen -- gen                   # only if gen is in list
     cat list | xargs cat > output
 
-* fabricate: broken, implemented but doesn't pass the tests - no idea why
+* **fabricate: success**, but fails on Travis
 * **Make: success, requires automatic restarting**
 * Ninja: unsure, no one has been able to implement it yet
 * **Shake: success**
@@ -141,7 +141,7 @@ In some cases `input` will change, but `source` will not change in response. It 
     unchanged-gen input -- source
     unchanged-run source -- output
 
-* fabricate: broken, implemented but doesn't pass the tests - no idea why
+* **fabricate: success**, but fails on Travis
 * Make: failure, does not seem to work
 * **Ninja: success**, requires `restat` to be added
 * **Shake: success**
@@ -158,7 +158,7 @@ In some cases one output will change, but not the other.
 
 I believe this test can be written on top of `unchanged`, by encoding the dependencies appropriately.
 
-* fabricate: broken, implemented but doesn't pass the tests - no idea why
+* **fabricate: success**, but fails on Travis
 * Make: failure, does not seem to work
 * **Ninja: success**, requires `restat` to be added
 * **Shake: success**
