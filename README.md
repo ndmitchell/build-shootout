@@ -216,7 +216,7 @@ A monadic dependency lets you introduce a new dependency while running an action
 
 An auto post dependency is one computed from what you actually used, rather than explicitly stated dependencies.
 
-### Auto cached commands [fabrciate]
+### Auto cached commands [fabricate]
 
 A cached command is where the inputs/outputs for a command are tracked, and the command is treated as a pure function and skipped if its inputs didn't change. This feature is more useful in build systems that go forward (from inputs to outputs) rather than the standard build systems that go from outputs to inputs.
 
