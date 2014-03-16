@@ -88,7 +88,7 @@ Work with files including spaces.
     cp "input file" "output file"
 
 * fabricate: partial, generally works but requires custom code to get command line support for targets
-* Make: failure, does not support files with spaces in them
+* **Make: success**
 * **Ninja: success**
 * **Shake: success**
 * tup: broken, the syntax doesn't seem to work
