@@ -75,7 +75,7 @@ Given a command line argument of `123.in`, copy `123.in` to `123.out`. Should wo
 
     cp $1 $1.out
 
-* fabricate: unsure, what does this means for fabricate
+* **fabricate: success**
 * **Make: success**
 * Ninja: failure, requires all rules to be listed in full
 * **Shake: success**

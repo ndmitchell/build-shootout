@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from fabricate import *
 
 def input1():
@@ -6,15 +7,15 @@ def input1():
 def gen():
     run('sh','monad3-gen','--','gen')
 
-def list():
+def lst():
     run('sh','monad3-run','source','--','list')
 
 def output():
-    list()
+    lst()
     array = []
-    with open('list', 'r') as file:
-        for line in file:
-            line = ''.join([x for x in line if x != '\n'])
+    with open('list', 'r') as f:
+        for line in f:
+            line = line.replace('\n', '')
             array.append(line)
             if line == "gen": gen()
     run('sh','-c','cat ' + ' '.join(array) + ' > output')
