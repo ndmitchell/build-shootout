@@ -1,0 +1,3 @@
+import os
+env = Environment(ENV = os.environ)
+env.Command('output file','input file','cp $SOURCE $TARGET')

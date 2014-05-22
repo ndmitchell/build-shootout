@@ -1,0 +1,5 @@
+import os
+env = Environment(ENV = os.environ)
+env.AppendENVPath('PATH','.')
+env.Command('output1','input1','sh parallel-run $SOURCE -- $TARGET')
+env.Command('output2','input2','sh parallel-run $SOURCE -- $TARGET')

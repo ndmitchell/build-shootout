@@ -1,0 +1,16 @@
+import os
+import SCons.Util
+
+def ConsFileDeps(env, target, source, *args, **kw):
+    if not SCons.SCons.Util.is_List(target):
+        target = [target]
+    if not SCons.SCons.Util.is_List(source):
+        source = [source]
+    env.Command(target[0],source[0],'cat $SOURCE | xargs cat > $TARGET')
+    with open(source[0],"r") as f:
+        for l in f.readlines():
+            env.Depends(target[0], l.rstrip('\n'))
+
+env = Environment(ENV = os.environ)
+env.AddMethod(ConsFileDeps, "ConsFileDeps")
+env.ConsFileDeps('output','list')

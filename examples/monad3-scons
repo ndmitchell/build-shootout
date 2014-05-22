@@ -1,0 +1,36 @@
+import os
+import SCons.Builder
+
+def scansrcs(target, source, env):
+        try:
+            f=open(str(source[0]), 'r')
+        except:
+            print "scansrcs: Can't open source list file '%s'" % str(source[0])
+            raise
+        for line in f:
+            src = line.strip()
+            try:
+                if src != "gen":
+                    env['SCANSRCS_FUNC'](env, src, env['SCANSRCS_TARGET'])
+                else:
+                    env['GEN_FUNC'](env, source, env['SCANSRCS_TARGET'])
+            except:
+                raise
+        f.close()
+
+def add_target(env, source, tgt):
+        env.Depends(tgt, source)
+
+def run_gencmd(env, source, tgt):
+        gen = env.Command('gen', source, 'sh monad3-gen -- $TARGET')
+        env.Depends(tgt, gen)
+
+env = Environment(ENV = os.environ)
+env.AppendENVPath('PATH','.')
+env.Append(BUILDERS = {'ScanSrcs' : SCons.Builder.Builder(action=scansrcs)})
+list = env.Command('list','source','sh monad3-run $SOURCE -- $TARGET')
+output = env.Command('output',list,'cat $SOURCE | xargs cat > $TARGET')
+dummy = env.ScanSrcs('#dummy-target', list, 
+                     SCANSRCS_FUNC=add_target, SCANSRCS_TARGET=output,
+                     GEN_FUNC=run_gencmd)
+env.Depends(output, dummy)
