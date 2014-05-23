@@ -1,0 +1,6 @@
+import os
+env = Environment(ENV = os.environ)
+env.AppendENVPath('PATH','.')
+env.Command(['source1','source2'], 'input', 'sh multiple-gen $SOURCE -- $TARGETS')
+env.Command('output1', 'source1', 'sh multiple-run $SOURCE -- $TARGET')
+env.Command('output2', 'source2', 'sh multiple-run $SOURCE -- $TARGET')

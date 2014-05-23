@@ -1,0 +1,9 @@
+import os
+import SCons.Builder
+
+cpbuild_ = SCons.Builder.Builder(action="cp $SOURCE $TARGET",
+                                 single_src=True, src_suffix=".in", suffix=".out")
+
+env = Environment(ENV=os.environ, BUILDERS={'CpBuild' : cpbuild_})
+env.CpBuild([os.path.splitext(t)[0] for t in BUILD_TARGETS])
+

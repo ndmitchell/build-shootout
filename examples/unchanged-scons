@@ -1,0 +1,5 @@
+import os
+env = Environment(ENV = os.environ)
+env.AppendENVPath('PATH','.')
+env.Command('output', 'source', 'sh unchanged-run $SOURCE -- $TARGET')
+env.Command('source', 'input', 'sh unchanged-gen $SOURCE -- $TARGET')
