@@ -1,0 +1,4 @@
+import os
+env = Environment(ENV = os.environ)
+env.AppendENVPath('PATH','.')
+env.Command('output','input','sh digest-run $SOURCE -- $TARGET')

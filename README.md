@@ -218,7 +218,7 @@ The `input` file will be changed, but sometimes to the same value.
 * fabricate: unsure
 * Make: failure, doesn't support digests 
 * Ninja: failure, doesn't support digests
-* SCons: unsure
+* **Shake: success**
 * **Shake: success**, requires setting `Digest` change mode.
 * tup: unsure
 
