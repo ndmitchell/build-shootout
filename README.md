@@ -7,6 +7,7 @@ This project attempts to clarify the relative power of various build systems. Co
 * [Shake](https://github.com/ndmitchell/shake#readme), cross-platform.
 * [tup](http://gittup.org/tup/), cross-platform, requiring FUSE on Linux. Does not work with [Travis](https://travis-ci.org/) and cannot be compiled on Windows.
 * [fabricate](https://code.google.com/p/fabricate/), works on Linux, some Windows support on some machines, requires at least admin configuration on Vista and above. Works partially with [Travis](https://travis-ci.org/).
+* [SCons](http://www.scons.org/), cross-platform.
 
 All build scripts are in the [examples directory](https://github.com/ndmitchell/build-shootout/tree/master/examples), as <tt><i>testname</i>-<i>buildsystem</i></tt>. You can run all the examples with `runhaskell Main` (after installing the [Haskell Platform](http://www.haskell.org/platform/), and any build systems you want to run). Use the argument `make` to only run Make examples, or `basic` to only run the basic test. 
 
@@ -42,6 +43,7 @@ Given an input file, create an output file which is a copy of the input file. If
 * **fabricate: success**
 * **Make: success**
 * **Ninja: success**
+* **SCons: success**
 * **Shake: success**
 * **tup: success**
 
@@ -54,6 +56,7 @@ Given two targets, build them in parallel.
 * fabricate: unimplemented, not tried
 * **Make: success**
 * **Ninja: success**
+* **SCons: success**
 * **Shake: success**
 * **tup: success**
 
@@ -66,6 +69,7 @@ Given a C file, compile it, automatically figuring out any transitively included
 * **fabricate: success**, but fails on Travis
 * **Make: success**
 * **Ninja: success**
+* **SCons: success**
 * **Shake: success**
 * **tup: success**
 
@@ -78,6 +82,7 @@ Given a command line argument of `123.in`, copy `123.in` to `123.out`. Should wo
 * **fabricate: success**
 * **Make: success**
 * Ninja: failure, requires all rules to be listed in full
+* **SCons: success**
 * **Shake: success**
 * **tup: success**
 
@@ -90,6 +95,7 @@ Work with files including spaces.
 * fabricate: partial, generally works but requires custom code to get command line support for space-including targets
 * **Make: success**
 * **Ninja: success**
+* **SCons: success**
 * **Shake: success**
 * tup: broken, the syntax doesn't seem to work
 
@@ -102,6 +108,7 @@ The monad series of tests are designed to probe the difference between applicati
 * **fabricate: success**, but fails on Travis
 * **Make: success**
 * **Ninja: success**
+* **SCons: success**
 * **Shake: success**
 * **tup: success**
 
@@ -115,6 +122,7 @@ The second test is like the first, but the `list` file itself is generated.
 * **fabricate: success**, but fails on Travis
 * **Make: success**
 * **Ninja: success**
+* **SCons: success**
 * **Shake: success**
 * **tup: success**
 
@@ -130,6 +138,7 @@ The third test requires generating `list`, then generating the files `list` refe
 * **fabricate: success**, but fails on Travis
 * **Make: success, requires automatic restarting**
 * Ninja: unsure, no one has been able to implement it yet
+* **SCons: success**
 * **Shake: success**
 * tup: unsure, no one has been able to implement it yet
 
@@ -144,6 +153,7 @@ In some cases `input` will change, but `source` will not change in response. It 
 * **fabricate: success**, but fails on Travis
 * Make: failure, does not seem to work
 * **Ninja: success**, requires `restat` to be added
+* **SCons: success**
 * **Shake: success**
 * **tup: success**, requires `^o^` to be added
 
@@ -161,6 +171,7 @@ I believe this test can be written on top of `unchanged`, by encoding the depend
 * **fabricate: success**, but fails on Travis
 * Make: failure, does not seem to work
 * **Ninja: success**, requires `restat` to be added
+* **SCons: success**
 * **Shake: success**
 * **tup: success**, requires `^o^` to be added
 
@@ -177,6 +188,7 @@ I believe that given a small amount of shell scripting glue (to run `system-gen`
 * fabricate: unsure
 * Make: unsure
 * Ninja: unsure
+* **SCons: success**
 * **Shake: success**
 * tup: unsure
 
@@ -192,8 +204,23 @@ Run with a parallelism of 8, but limit a specific stage to no more than 2 concur
 * fabricate: unsure
 * Make: failure, doesn't seem to work
 * **Ninja: success**
+* SCons: failure, doesn't support pools
 * **Shake: success**
 * tup: unsure, nothing I can see
+
+
+### digest: Don't rebuild when a file is modified to the same value
+
+The `input` file will be changed, but sometimes to the same value.
+
+    digest-run input -- output
+
+* fabricate: unsure
+* Make: failure, doesn't support digests 
+* Ninja: failure, doesn't support digests
+* SCons: unsure
+* **Shake: success**, requires setting `Digest` change mode.
+* tup: unsure
 
 
 ## Build System Power
