@@ -121,12 +121,12 @@ run name tool opts = do
         Make -> system_ $ "make --file=" ++ name ++ "-make --quiet -j" ++ show p ++ " " ++ target
         Ninja -> system_ $ "ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
         Tup -> do
-                b <- doesDirectoryExist ".tup"
-                unless b $ system_ $ "tup init > " ++ devNull
-                writeFile ".tup/options" "[updater]\nwarnings = 0"
-                copyFile (name ++ "-tup")  "Tupfile"
-                system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
-                removeFile "Tupfile"
+            b <- doesDirectoryExist ".tup"
+            unless b $ system_ $ "tup init > " ++ devNull
+            writeFile ".tup/options" "[updater]\nwarnings = 0"
+            copyFile (name ++ "-tup")  "Tupfile"
+            system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
+            removeFile "Tupfile"
         Fabricate -> do
             system_ $ "python " ++ name ++ "-fabricate.py" ++ (if verbose then "" else " --quiet") ++ " -j" ++ show p ++ " " ++ target
             when verbose $ putStrLn =<< readFile ".deps"
