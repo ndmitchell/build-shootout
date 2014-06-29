@@ -91,7 +91,7 @@ Work with files including spaces.
 * **Make: success**
 * **Ninja: success**
 * **Shake: success**
-* tup: broken, the syntax doesn't seem to work
+* **tup: success**, seems to require Lua
 
 ### monad1: Monadic patterns
 
