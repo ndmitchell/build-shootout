@@ -35,7 +35,7 @@ data Opt
       deriving Show
 
 
-data Tool = Tup | Ninja | Shake | Make | Fabricate
+data Tool = Tup | TupLua | Ninja | Shake | Make | Fabricate
     deriving (Show,Eq,Enum,Bounded)
 
 
@@ -127,6 +127,13 @@ run name tool opts = do
             copyFile (name ++ "-tup")  "Tupfile"
             system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
             removeFile "Tupfile"
+        TupLua -> do
+            b <- doesDirectoryExist ".tup"
+            unless b $ system_ $ "tup init > " ++ devNull
+            writeFile ".tup/options" "[updater]\nwarnings = 0"
+            copyFile (name ++ "-tuplua")  "Tupfile.lua"
+            system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
+            removeFile "Tupfile.lua"
         Fabricate -> do
             system_ $ "python " ++ name ++ "-fabricate.py" ++ (if verbose then "" else " --quiet") ++ " -j" ++ show p ++ " " ++ target
             when verbose $ putStrLn =<< readFile ".deps"
