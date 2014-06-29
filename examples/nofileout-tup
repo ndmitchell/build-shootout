@@ -1,1 +1,1 @@
-input |> sh nofileout-run %f |>
+: input |> sh nofileout-run %f |>
