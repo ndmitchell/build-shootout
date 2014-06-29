@@ -171,7 +171,7 @@ opt _ NoChange = do
     return $ do
         dir2 <- getDirectoryContents "."
         same "List of files changed" dir dir2
-        times2 <- mapM modTime dir
+        times2 <- mapM modTime dir2
         same "File was modified" (zip dir times) (zip dir2 times2)
 opt _ (Change file) = do
     a <- modTime file
