@@ -223,6 +223,20 @@ The `input` file will be changed, but sometimes to the same value.
 * tup: unsure
 
 
+### nofileout: Don't produce an output file
+
+Rerun if and only if `input` file was changed.
+
+    nofileout-run input --
+
+* fabricate: unsure
+* Make: unsure
+* Ninja: unsure
+* SCons: unsure
+* Shake: failure, doesn't support rules that are only run if the dependencies change but don't produce an output file
+* **tup: success**
+
+
 ## Build System Power
 
 The intention of this project is to figure out what dependency features each build system offers, what power they give, and which features can be expressed in terms of others. This section is speculative and evolving.

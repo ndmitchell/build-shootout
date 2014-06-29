@@ -22,6 +22,7 @@ main = do
     test "system" system
     test "pool" pool
     test "digest" digest
+    test "nofileout" nofileout
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -174,4 +175,14 @@ digest run = do
     run [Contents "output" "abc"]
     run [NoChange]
     writeFile "input" "abc"
+    run [NoChange]
+
+
+nofileout :: ([Opt] -> IO ()) -> IO ()
+nofileout run = do
+    writeFile "input" "xyz"
+    run [Log "xyz"]
+    run [NoChange]
+    writeFile "input" "abc"
+    run [Log "xyzabc"]
     run [NoChange]
