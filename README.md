@@ -216,7 +216,7 @@ The `input` file will be changed, but sometimes to the same value.
     digest-run input -- output
 
 * fabricate: unsure
-* Make: failure, doesn't support digests 
+* Make: failure, doesn't support digests
 * Ninja: failure, doesn't support digests
 * **SCons: success**
 * **Shake: success**, requires setting `Digest` change mode.
