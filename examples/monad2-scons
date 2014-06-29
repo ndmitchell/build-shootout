@@ -1,0 +1,28 @@
+import os
+import SCons.Builder
+
+def scansrcs(target, source, env):
+        try:
+            f=open(str(source[0]), 'r')
+        except:
+            print "scansrcs: Can't open source list file '%s'" % str(source[0])
+            raise
+        for line in f:
+            src = line.strip()
+            try:
+                env['SCANSRCS_FUNC'](env, src, env['SCANSRCS_TARGET'])
+            except:
+                print "SCANSRCS func raised exception:"
+                raise
+        f.close()
+
+def add_target(env, source, tgt):
+        env.Depends(tgt, source)
+
+env = Environment(ENV = os.environ)
+env.AppendENVPath('PATH','.')
+env.Append(BUILDERS = {'ScanSrcs' : SCons.Builder.Builder(action=scansrcs)})
+list = env.Command('list','source','sh monad2-run $SOURCE -- $TARGET')
+output = env.Command('output',list,'cat $SOURCE | xargs cat > $TARGET')
+dummy = env.ScanSrcs('#dummy-target', list, SCANSRCS_FUNC=add_target, SCANSRCS_TARGET=output)
+env.Depends(output, dummy)

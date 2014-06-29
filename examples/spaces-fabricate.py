@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from fabricate import *
 import sys
 

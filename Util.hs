@@ -35,7 +35,7 @@ data Opt
       deriving Show
 
 
-data Tool = Tup | TupLua | Ninja | Shake | Make | Fabricate
+data Tool = Tup | TupLua | Ninja | Shake | Make | Fabricate | SCons
     deriving (Show,Eq,Enum,Bounded)
 
 
@@ -119,6 +119,7 @@ run name tool opts = do
     case tool of
         Shake -> system_ $ "runhaskell -Werror -fwarn-unused-binds -fwarn-unused-imports " ++ name ++ "-shake.hs --quiet -j" ++ show p ++ " " ++ target
         Make -> system_ $ "make --file=" ++ name ++ "-make --quiet -j" ++ show p ++ " " ++ target
+        SCons -> system_ $ "scons -f " ++ name ++ "-scons -s -j" ++ show p ++ " " ++ target
         Ninja -> system_ $ "ninja -f " ++ name ++ "-ninja.ninja -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
         Tup -> do
             b <- doesDirectoryExist ".tup"

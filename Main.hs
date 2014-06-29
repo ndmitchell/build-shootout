@@ -21,6 +21,7 @@ main = do
     test "multiple" multiple
     test "system" system
     test "pool" pool
+    test "digest" digest
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -161,4 +162,16 @@ pool run = do
     writeFile "input2" "abc"
     writeFile "input3" "def"
     run [Parallel 8, Log "start start end start end end"]
+    run [NoChange]
+
+
+digest :: ([Opt] -> IO ()) -> IO ()
+digest run = do
+    writeFile "input" "xyz"
+    run [Contents "output" "xyz"]
+    run [NoChange]
+    writeFile "input" "abc"
+    run [Contents "output" "abc"]
+    run [NoChange]
+    writeFile "input" "abc"
     run [NoChange]
