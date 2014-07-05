@@ -1,9 +1,7 @@
 import Development.Shake
 
 main = shakeArgs shakeOptions $ do
-
-    want $ ["output"]
-
+    want ["output"]
     "output" *> \out -> do
-        maybeVal <- getEnv "SYSTEM2_DATA"
+        getEnv "SYSTEM2_DATA" -- just for the dependency
         cmd "sh system2-run" "--" [out]
