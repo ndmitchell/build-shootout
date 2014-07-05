@@ -19,7 +19,7 @@ main = do
     test "monad3" monad3
     test "unchanged" unchanged
     test "multiple" multiple
-    test "system" system
+    test "system1" system1
     test "pool" pool
     test "digest" digest
     test "nofileout" nofileout
@@ -147,13 +147,13 @@ multiple run = do
     run [Target "output1", Target "output2", NoChange]
 
 
-system :: ([Opt] -> IO ()) -> IO ()
-system run = do
-    writeFile "system-data" "foo"
+system1 :: ([Opt] -> IO ()) -> IO ()
+system1 run = do
+    writeFile "system1-data" "foo"
     writeFile "source" "none"
     run [Target "output", Contents "output" "foo", Log "gen run"]
     run [Target "output", Contents "output" "foo", Log "gen run gen"]
-    writeFile "system-data" "bar"
+    writeFile "system1-data" "bar"
     run [Target "output", Contents "output" "bar", Log "gen run gen gen run"]
 
 

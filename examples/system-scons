@@ -1,7 +1,0 @@
-import os
-env = Environment(ENV = os.environ)
-env.AppendENVPath('PATH', '.')
-s = env.Command('source', [], 'sh system-gen -- $TARGET')
-env.Precious(s)
-env.AlwaysBuild(s)
-env.Command('output', s, 'sh system-run $SOURCE -- $TARGET')

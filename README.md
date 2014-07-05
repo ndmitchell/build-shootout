@@ -176,14 +176,14 @@ I believe this test can be written on top of `unchanged`, by encoding the depend
 * **tup: success**, requires `^o^` to be added
 
 
-### system: Dependency on system information
+### system1: Dependency on system information
 
-Introduce a dependency on a piece of system information that must be recomputed every run. In this scenario `system-gen` might be equivalent to `gcc --version` and `system-run` might be `gcc -c`. You must always test the `gcc` version, but only want to rebuild if it changes.
+Introduce a dependency on a piece of system information that must be recomputed every run. In this scenario `system1-gen` might be equivalent to `gcc --version` and `system1-run` might be `gcc -c`. You must always test the `gcc` version, but only want to rebuild if it changes.
 
-    system-gen -- source           # must always be run
-    system-run source -- output    # must not run if source does not change
+    system1-gen -- source          # must always be run
+    system1-run source -- output   # must not run if source does not change
 
-I believe that given a small amount of shell scripting glue (to run `system-gen`) this test can be written on top of `unchanged`.
+I believe that given a small amount of shell scripting glue (to run `system1-gen`) this test can be written on top of `unchanged`.
 
 * fabricate: unsure
 * Make: unsure
