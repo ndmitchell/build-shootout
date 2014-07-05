@@ -132,7 +132,7 @@ run name tool opts = do
             b <- doesDirectoryExist ".tup"
             unless b $ system_ $ "tup init > " ++ devNull
             writeFile ".tup/options" "[updater]\nwarnings = 0"
-            copyFile (name ++ "-tuplua")  "Tupfile.lua"
+            copyFile (name ++ "-tuplua.lua")  "Tupfile.lua"
             system_ $ "tup -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
             removeFile "Tupfile.lua"
         Fabricate -> do
