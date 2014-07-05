@@ -4,6 +4,7 @@
 --   do in fact do so.
 module Main(main) where
 
+import System.Directory (removeFile)
 import System.Environment (setEnv, unsetEnv)
 import Util
 
@@ -25,6 +26,7 @@ main = do
     test "pool" pool
     test "digest" digest
     test "nofileout" nofileout
+    test "noleftover" noleftover
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -204,4 +206,16 @@ nofileout run = do
     run [NoChange]
     writeFile "input" "abc"
     run [Log "xyzabc"]
+    run [NoChange]
+
+
+noleftover :: ([Opt] -> IO ()) -> IO ()
+noleftover run = do
+    writeFile "foo.in" "foo"
+    writeFile "bar.in" "bar"
+    run [Contents "foo.out" "foo", Contents "bar.out" "bar"]
+    run [NoChange]
+    removeFile "bar.in"
+    writeFile "baz.in" "baz"
+    run [Contents "foo.out" "foo", Contents "baz.out" "baz", Missing "bar.out"]
     run [NoChange]

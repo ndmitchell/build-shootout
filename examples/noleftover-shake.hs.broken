@@ -1,0 +1,13 @@
+import Development.Shake
+import Development.Shake.FilePath
+
+main = shakeArgs shakeOptions $ do
+
+    action $ do
+        is <- getDirectoryFiles "." ["*.in"]
+        let os = [i -<.> "out" | i <- is]
+        need os
+
+    "*.out" *> \o -> do
+        let i = o -<.> "in"
+        cmd "sh noleftover-run" [i] "--" [o]

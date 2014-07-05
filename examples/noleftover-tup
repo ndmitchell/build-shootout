@@ -1,0 +1,1 @@
+: foreach *.in |> sh noleftover-run %f -- %o |> %B.out

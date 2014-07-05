@@ -252,6 +252,29 @@ Rerun if and only if `input` file was changed.
 * **tup: success**
 
 
+### noleftover: Remove files left over from a previous build
+
+    # initialize
+    echo "foo" > foo.in
+    echo "bar" > bar.in
+    # build
+    noleftover-run foo.in -- foo.out
+    noleftover-run bar.in -- bar.out
+    # modify
+    rm bar.in
+    echo "baz" > baz.in
+    # rebuld
+    rm bar.out
+    noleftover-run baz.in -- baz.out
+
+* fabricate: unsure
+* Make: unsure
+* Ninja: unsure
+* SCons: unsure
+* Shake: failure, doesn't seem to be supported
+* **tup: success**
+
+
 ## Build System Power
 
 The intention of this project is to figure out what dependency features each build system offers, what power they give, and which features can be expressed in terms of others. This section is speculative and evolving.
