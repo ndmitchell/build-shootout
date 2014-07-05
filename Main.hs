@@ -4,6 +4,7 @@
 --   do in fact do so.
 module Main(main) where
 
+import System.Environment (setEnv, unsetEnv)
 import Util
 
 
@@ -20,6 +21,7 @@ main = do
     test "unchanged" unchanged
     test "multiple" multiple
     test "system1" system1
+    test "system2" system2
     test "pool" pool
     test "digest" digest
     test "nofileout" nofileout
@@ -155,6 +157,23 @@ system1 run = do
     run [Target "output", Contents "output" "foo", Log "gen run gen"]
     writeFile "system1-data" "bar"
     run [Target "output", Contents "output" "bar", Log "gen run gen gen run"]
+
+
+system2 :: ([Opt] -> IO ()) -> IO ()
+system2 run = do
+    let varName = "SYSTEM2_DATA"
+    unsetEnv varName
+    run [Contents "output" "", Log "run"]
+    run [NoChange]
+    setEnv varName "foo"
+    run [Contents "output" "foo", Log "run run"]
+    run [NoChange]
+    setEnv varName "bar"
+    run [Contents "output" "bar", Log "run run run"]
+    run [NoChange]
+    unsetEnv varName
+    run [Contents "output" "", Log "run run run run"]
+    run [NoChange]
 
 
 pool :: ([Opt] -> IO ()) -> IO ()

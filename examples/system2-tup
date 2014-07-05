@@ -1,0 +1,2 @@
+export SYSTEM2_DATA
+: |> sh system2-run -- %o |> output

@@ -1,0 +1,2 @@
+echo run >> ../.log
+echo -n "$SYSTEM2_DATA" > $2

@@ -193,6 +193,21 @@ I believe that given a small amount of shell scripting glue (to run `system1-gen
 * tup: unsure
 
 
+### system2: Dependency on system environment variable
+
+Rerun if and only if `output` does not exist or system environment variable
+`SYSTEM2_DATA` was changed.
+
+    system2-run -- output
+
+* fabricate: unsure
+* Make: unsure
+* Ninja: unsure
+* SCons: unsure
+* **Shake: success**
+* **tup: success**
+
+
 ### pool: Limit the parallelism in a specific stage
 
 Run with a parallelism of 8, but limit a specific stage to no more than 2 concurrent runs.
