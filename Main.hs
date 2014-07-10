@@ -4,8 +4,6 @@
 --   do in fact do so.
 module Main(main) where
 
-import System.Directory (removeFile)
-import System.Environment (setEnv, unsetEnv)
 import Util
 
 
@@ -164,16 +162,12 @@ system1 run = do
 system2 :: ([Opt] -> IO ()) -> IO ()
 system2 run = do
     let varName = "SYSTEM2_DATA"
-    unsetEnv varName
     run [Contents "output" "", Log "run"]
     run [NoChange]
-    setEnv varName "foo"
-    run [Contents "output" "foo", Log "run run"]
-    run [NoChange]
-    setEnv varName "bar"
-    run [Contents "output" "bar", Log "run run run"]
-    run [NoChange]
-    unsetEnv varName
+    run [Contents "output" "foo", Log "run run", Env varName "foo"]
+    run [NoChange, Env varName "foo"]
+    run [Contents "output" "bar", Log "run run run", Env varName "bar"]
+    run [NoChange, Env varName "bar"]
     run [Contents "output" "", Log "run run run run"]
     run [NoChange]
 

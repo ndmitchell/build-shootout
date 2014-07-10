@@ -6,7 +6,7 @@
 module Util(
     test, Opt(..),
     randomRIO,
-    writeBinary
+    writeBinary, removeFile
     ) where
 
 import Control.Concurrent
@@ -14,13 +14,13 @@ import Control.Exception as E
 import Control.Monad
 import Data.Char
 import Data.List
-import System.Cmd
 import System.Directory
 import System.Environment
 import System.Exit
 import System.FilePath
 import System.IO
 import System.Info
+import System.Process
 import System.Random
 
 
@@ -32,6 +32,7 @@ data Opt
     | Parallel Int
     | Target FilePath
     | Log String
+    | Env String String
       deriving Show
 
 
@@ -116,6 +117,11 @@ run name tool opts = do
     threadDelay 1000000
     let p = last $ 1 : [i | Parallel i <- opts]
     let target = unwords ["\"" ++ x ++ "\"" | Target x <- opts]
+    let system_ cmd = do
+        env <- getEnvironment
+        (_,_,_,p) <- createProcess (shell cmd){env = Just $ env ++ [(a,b) | Env a b <- opts]}
+        r <- waitForProcess p
+        when (r /= ExitSuccess) $ error $ "System command failed: " ++ cmd
     case tool of
         Shake -> system_ $ "runhaskell -Werror -fwarn-unused-binds -fwarn-unused-imports " ++ name ++ "-shake.hs --quiet -j" ++ show p ++ " " ++ target
         Make -> system_ $ "make --file=" ++ name ++ "-make --quiet -j" ++ show p ++ " " ++ target
@@ -148,8 +154,6 @@ devNull = if windows then "nul" else "/dev/null"
 
 
 opt :: Tool -> Opt -> IO (IO ())
-opt _ Parallel{} = return $ return ()
-opt _ Target{} = return $ return ()
 opt _ (Missing file) = return $ do
     b <- doesFileExist file
     when b $ error $ "Fail should be missing: " ++ file
@@ -178,6 +182,7 @@ opt _ (Change file) = do
     return $ do
         b <- modTime file
         when (a == b) $ error "File did not change"
+opt _ _ = return $ return ()
 
 
 same :: (Show a, Eq a) => String -> [a] -> [a] -> IO ()
@@ -199,9 +204,3 @@ withCurrentDirectory :: FilePath -> IO () -> IO ()
 withCurrentDirectory dir act = do
     curdir <- getCurrentDirectory
     bracket_ (setCurrentDirectory dir) (setCurrentDirectory curdir) act
-
-
-system_ :: String -> IO ()
-system_ cmd = do
-    r <- system cmd
-    when (r /= ExitSuccess) $ error $ "System command failed: " ++ cmd
