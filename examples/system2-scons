@@ -1,0 +1,7 @@
+import os
+import SCons.Node.Python
+env = Environment(ENV = os.environ)
+env.AppendENVPath('PATH', '.')
+r = env.Command('output', [], 'sh system2-run -- $TARGET')
+n = SCons.Node.Python.Value(os.environ.get('SYSTEM2_DATA',''))
+env.Depends(r, n)
