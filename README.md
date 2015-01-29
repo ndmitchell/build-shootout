@@ -275,6 +275,32 @@ Rerun if and only if `input` file was changed.
 * **tup: success**
 
 
+### secondary: Secondary target
+
+Dependency chain `input` <- `secondary` <- `output` where `secondary` file is *not* built when it doesn't exist and `output` file is newer than `input` file.
+`secondary` file is built if and only if it is older than `input` file or (it doesn't exist and (`output` file is older than `input` file or `output` file doesn't exist)).
+
+* fabricate: unsure
+* **Make: success**
+* Ninja: unsure
+* SCons: unsure
+* Shake: unsure
+* tup: unsure
+
+
+### intermediate: Intermediate target
+
+Dependency chain `input` <- `intermediate` <- `output` where `intermediate` file is built as a temporary prerequisite for building `output` file, only, and eventually deleted unless it existed in the first place.
+`intermediate` file is built if and only if it is older than `input` file or (it doesn't exist and (`output` file is older than `input` file or `output` file doesn't exist)).
+
+* fabricate: unsure
+* **Make: success**
+* Ninja: unsure
+* SCons: unsure
+* Shake: unsure
+* tup: unsure
+
+
 ## Build System Power
 
 The intention of this project is to figure out what dependency features each build system offers, what power they give, and which features can be expressed in terms of others. This section is speculative and evolving.

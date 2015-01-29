@@ -25,6 +25,8 @@ main = do
     test "digest" digest
     test "nofileout" nofileout
     test "noleftover" noleftover
+    test "secondary" secondary
+    test "intermediate" intermediate
 
 
 basic :: ([Opt] -> IO ()) -> IO ()
@@ -212,4 +214,36 @@ noleftover run = do
     removeFile "bar.in"
     writeFile "baz.in" "baz"
     run [Contents "foo.out" "foo", Contents "baz.out" "baz", Missing "bar.out"]
+    run [NoChange]
+
+
+secondary :: ([Opt] -> IO ()) -> IO ()
+secondary run = do
+    writeFile "input" "xyz"
+    run [Contents "output" "xyz * *", Contents "secondary" "xyz *", Log "run run"]
+    run [NoChange]
+    writeFile "secondary" "123"
+    run [Contents "output" "123 *", Contents "secondary" "123", Log "run run run"]
+    run [NoChange]
+    removeFile "secondary"
+    run [Contents "output" "123 *", Missing "secondary", Log "run run run"]
+    run [NoChange]
+    writeFile "input" "abc"
+    run [Contents "output" "abc * *", Contents "secondary" "abc *", Log "run run run run run"]
+    run [NoChange]
+
+
+intermediate :: ([Opt] -> IO ()) -> IO ()
+intermediate run = do
+    writeFile "input" "xyz"
+    run [Contents "output" "xyz * *", Missing "intermediate", Log "run run"]
+    run [NoChange]
+    writeFile "input" "abc"
+    run [Contents "output" "abc * *", Missing "intermediate", Log "run run run run"]
+    run [NoChange]
+    writeFile "intermediate" "123"
+    run [Contents "output" "123 *", Contents "intermediate" "123", Log "run run run run run"]
+    run [NoChange]
+    writeFile "input" "abc"
+    run [Contents "output" "abc * *", Contents "intermediate" "abc *", Log "run run run run run run run"]
     run [NoChange]

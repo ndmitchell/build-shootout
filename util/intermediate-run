@@ -1,0 +1,3 @@
+echo run >> ../.log
+cp $1 $3
+echo -n " *" >> $3

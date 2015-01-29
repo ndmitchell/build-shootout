@@ -1,0 +1,7 @@
+output: secondary
+	sh secondary-run secondary -- output
+
+secondary: input
+	sh secondary-run input -- secondary
+
+.SECONDARY: secondary

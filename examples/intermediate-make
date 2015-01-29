@@ -1,0 +1,7 @@
+output: intermediate
+	sh intermediate-run intermediate -- output
+
+intermediate: input
+	sh intermediate-run input -- intermediate
+
+.INTERMEDIATE: intermediate
