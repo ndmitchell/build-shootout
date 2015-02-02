@@ -277,8 +277,11 @@ Rerun if and only if `input` file was changed.
 
 ### secondary: Secondary target
 
-Dependency chain `input` <- `secondary` <- `output` where `secondary` file is *not* built when it doesn't exist and `output` file is newer than `input` file.
-`secondary` file is built if and only if it is older than `input` file or (it doesn't exist and (`output` file is older than `input` file or `output` file doesn't exist)).
+Building an `output` file from an `input` file requires an auxiliary result `secondary` file.
+Removing `secondary` file doesn't cause rebuilding `output` file as long as `input` file wasn't changed.
+Changing `input` file causes a rebuild of both files, `secondary` and `output`.
+
+Within the scope of this test `change` means modification of both, contents and timestamp.
 
 * fabricate: unsure
 * **Make: success**
@@ -290,8 +293,11 @@ Dependency chain `input` <- `secondary` <- `output` where `secondary` file is *n
 
 ### intermediate: Intermediate target
 
-Dependency chain `input` <- `intermediate` <- `output` where `intermediate` file is built as a temporary prerequisite for building `output` file, only, and eventually deleted unless it existed in the first place.
-`intermediate` file is built if and only if it is older than `input` file or (it doesn't exist and (`output` file is older than `input` file or `output` file doesn't exist)).
+Building an `output` file from an `input` file requires an auxiliary result `intermediate` file which is automatically removed at the end.
+An `intermediate` file isn't created in subsequent builds as long as `input` file wasn't changed.
+Changing `input` file causes building `intermediate` file, rebuilding `output` file, and removing `intermediate` file, eventually.
+
+Within the scope of this test `change` means modification of both, contents and timestamp.
 
 * fabricate: unsure
 * **Make: success**

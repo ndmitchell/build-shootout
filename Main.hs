@@ -222,14 +222,11 @@ secondary run = do
     writeFile "input" "xyz"
     run [Contents "output" "xyz * *", Contents "secondary" "xyz *", Log "run run"]
     run [NoChange]
-    writeFile "secondary" "123"
-    run [Contents "output" "123 *", Contents "secondary" "123", Log "run run run"]
-    run [NoChange]
     removeFile "secondary"
-    run [Contents "output" "123 *", Missing "secondary", Log "run run run"]
+    run [Contents "output" "xyz * *", Missing "secondary", Log "run run"]
     run [NoChange]
     writeFile "input" "abc"
-    run [Contents "output" "abc * *", Contents "secondary" "abc *", Log "run run run run run"]
+    run [Contents "output" "abc * *", Contents "secondary" "abc *", Log "run run run run"]
     run [NoChange]
 
 
@@ -240,10 +237,4 @@ intermediate run = do
     run [NoChange]
     writeFile "input" "abc"
     run [Contents "output" "abc * *", Missing "intermediate", Log "run run run run"]
-    run [NoChange]
-    writeFile "intermediate" "123"
-    run [Contents "output" "123 *", Contents "intermediate" "123", Log "run run run run run"]
-    run [NoChange]
-    writeFile "input" "abc"
-    run [Contents "output" "abc * *", Contents "intermediate" "abc *", Log "run run run run run run run"]
     run [NoChange]
