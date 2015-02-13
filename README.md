@@ -287,7 +287,7 @@ Within the scope of this test `change` means modification of both, contents and 
 * **Make: success**
 * Ninja: unsure
 * SCons: unsure
-* Shake: unsure
+* **Shake: success**
 * tup: unsure
 
 
@@ -303,7 +303,7 @@ Within the scope of this test `change` means modification of both, contents and 
 * **Make: success**
 * Ninja: unsure
 * SCons: unsure
-* Shake: unsure
+* **Shake: success**
 * tup: unsure
 
 
