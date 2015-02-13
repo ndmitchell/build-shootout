@@ -1,3 +1,5 @@
+set -ex
+
 # Install Shake
 git clone https://github.com/ndmitchell/shake
 (cd shake && cabal install)
