@@ -1,0 +1,5 @@
+
+target = GetBuildTargets()[0]
+
+node = tools.Command( 'cp', File('./input file'), target = './' + target, cwd = '.' )
+Alias( target, node )

@@ -1,0 +1,2 @@
+
+out = tools.Command( 'sh', './digest-run', File('input'), '--', target = './output', cwd = '.' )

@@ -1,0 +1,3 @@
+
+tools.Command( 'sh', './parallel-run', File('./input1'), '--', target = './output1', cwd = '.' )
+tools.Command( 'sh', './parallel-run', File('./input2'), '--', target = './output2', cwd = '.' )
