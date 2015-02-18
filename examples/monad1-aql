@@ -10,7 +10,7 @@ def   CatFiles( builder, node, target ):
   builder.execCmd( cmd, cwd = '.')
   
   files = readTextFile( src_file )
-  files = map( str.strip, files.splitlines() )
+  files = [ file.strip() for file in files.splitlines() ]
   
   node.addTargets( target, implicit_deps = files )
 
