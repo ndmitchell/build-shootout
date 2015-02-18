@@ -1,0 +1,9 @@
+
+
+sources = tools.Command( 'sh', './multiple-gen', File('input'), '--', target = ['./source1', './source2'], cwd = '.' )
+
+out1 = tools.Command( 'sh', './multiple-run', sources[0], '--', target = './output1', cwd = '.' )
+out2 = tools.Command( 'sh', './multiple-run', sources[1], '--', target = './output2', cwd = '.' )
+
+Alias( 'output1', out1 )
+Alias( 'output2', out2 )

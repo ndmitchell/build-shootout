@@ -1,0 +1,10 @@
+
+import os.path
+
+target = GetBuildTargets()[0]
+source = os.path.splitext(target)[0] + '.in'
+
+out = tools.Command( 'cp', File(source), target = './' + target, cwd = '.' )
+
+Alias( target, out )
+

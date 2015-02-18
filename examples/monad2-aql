@@ -1,0 +1,20 @@
+import os.path
+
+from aql import readTextFile
+
+def   CatFiles( builder, node, target ):
+  src_file = node.getSources()[0]
+  
+  cmd = "cat '{src_file}' | xargs cat > '{target}'".format( src_file = src_file, target = target )
+  
+  builder.execCmd( cmd, cwd = '.')
+  
+  files = readTextFile( src_file )
+  files = [ file.strip() for file in files.splitlines() ]
+  
+  node.addTargets( target, implicit_deps = files )
+
+gen_list = tools.Command( 'sh','./monad2-run', File('source'), '--', target = './list', cwd = '.' )
+
+content = tools.Method( gen_list, method = CatFiles, args = ('output',) )
+Alias( 'output', content )

@@ -1,0 +1,6 @@
+
+source = tools.Command( 'sh', './system1-gen', '--', target = './source', cwd = '.' )
+AlwaysBuild( source )
+
+out = tools.Command( 'sh', './system1-run', source, '--', target = './output', cwd = '.' )
+Alias( 'output', out )

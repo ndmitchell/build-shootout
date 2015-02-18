@@ -1,0 +1,5 @@
+
+src = tools.Command( 'sh', './unchanged-gen', File('input'), '--', target = './source', cwd = '.' )
+out = tools.Command( 'sh', './unchanged-run', src, '--', target = './output', cwd = '.' )
+
+Alias( 'output', out )

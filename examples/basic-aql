@@ -1,0 +1,2 @@
+
+tools.Command( 'sh', './basic-run', File('./input'), '--', target = './output', cwd = '.' )

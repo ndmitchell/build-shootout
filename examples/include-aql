@@ -1,0 +1,1 @@
+tools.c.Compile( 'include-main.c', target = './main' )

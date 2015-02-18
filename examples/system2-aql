@@ -1,0 +1,8 @@
+
+out = tools.Command( 'sh', './system2-run', '--', target = './output', cwd = '.' )
+
+data = Entity( options.env.get().get( 'SYSTEM2_DATA', '' ) )
+
+Depends( out, data )
+
+Alias( 'output', out )

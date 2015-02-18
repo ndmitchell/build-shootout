@@ -1,0 +1,39 @@
+import os.path
+
+from aql import readTextFile
+
+
+def   GenFile( builder, node ):
+  src_file = node.getSources()[0]
+  
+  files = readTextFile( src_file )
+  files = [ line.strip() for line in files.splitlines() ]
+  
+  for file in files:
+    if os.path.basename(file) == 'gen':
+      builder.execCmd( ['sh','./monad3-gen', '--', 'gen'], cwd = '.')
+      break
+  
+  node.setNoTargets()
+
+def   CatFiles( builder, node, target ):
+  src_file = node.getSources()[0]
+  
+  cmd = "cat '{src_file}' | xargs cat > '{target}'".format( src_file = src_file, target = target )
+  
+  builder.execCmd( cmd, cwd = '.')
+  
+  files = readTextFile( src_file )
+  files = [ file.strip() for file in files.splitlines() ]
+  
+  node.addTargets( target, implicit_deps = files )
+
+
+gen_list = tools.Command( 'sh','./monad3-run', File('source'), '--', target = './list', cwd = '.' )
+
+gen = tools.Method( gen_list, method = GenFile )
+
+content = tools.Method( gen_list, method = CatFiles, args = ('output',) )
+Depends( content, gen )
+
+Alias( 'output', content )
