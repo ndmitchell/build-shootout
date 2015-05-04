@@ -9,6 +9,7 @@ This project attempts to clarify the relative power of various build systems. Co
 * [fabricate](https://code.google.com/p/fabricate/), works on Linux, some Windows support on some machines, requires at least admin configuration on Vista and above. Works partially with [Travis](https://travis-ci.org/).
 * [SCons](http://www.scons.org/), cross-platform.
 * [Aqualid](https://github.com/aqualid/), cross-platform.
+* [Fbuild](https://github.com/felix-lang/fbuild), cross-platform.
 
 All build scripts are in the [examples directory](https://github.com/ndmitchell/build-shootout/tree/master/examples), as <tt><i>testname</i>-<i>buildsystem</i></tt>. You can run all the examples with `runhaskell Main` (after installing the [Haskell Platform](http://www.haskell.org/platform/), and any build systems you want to run). Use the argument `make` to only run Make examples, or `basic` to only run the basic test. 
 
@@ -46,6 +47,7 @@ Given an input file, create an output file which is a copy of the input file. If
 * **Ninja: success**
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**
 
@@ -60,6 +62,7 @@ Given two targets, build them in parallel.
 * **Ninja: success**
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**
 
@@ -74,6 +77,7 @@ Given a C file, compile it, automatically figuring out any transitively included
 * **Ninja: success**
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**
 
@@ -88,6 +92,7 @@ Given a command line argument of `123.in`, copy `123.in` to `123.out`. Should wo
 * Ninja: failure, requires all rules to be listed in full
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**
 
@@ -102,6 +107,7 @@ Work with files including spaces.
 * **Ninja: success**
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**, seems to require Lua
 
@@ -116,6 +122,7 @@ The monad series of tests are designed to probe the difference between applicati
 * **Ninja: success**
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**
 
@@ -131,6 +138,7 @@ The second test is like the first, but the `list` file itself is generated.
 * **Ninja: success**
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**
 
@@ -148,6 +156,7 @@ The third test requires generating `list`, then generating the files `list` refe
 * Ninja: unsure, no one has been able to implement it yet
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * tup: unsure, no one has been able to implement it yet
 
@@ -164,6 +173,7 @@ In some cases `input` will change, but `source` will not change in response. It 
 * **Ninja: success**, requires `restat` to be added
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**, requires `^o^` to be added
 
@@ -183,6 +193,7 @@ I believe this test can be written on top of `unchanged`, by encoding the depend
 * **Ninja: success**, requires `restat` to be added
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * **tup: success**, requires `^o^` to be added
 
@@ -201,6 +212,7 @@ I believe that given a small amount of shell scripting glue (to run `system1-gen
 * Ninja: unsure
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**
 * tup: unsure
 
@@ -218,6 +230,7 @@ Rerun if and only if `output` does not exist or system environment variable
 * SCons: unsure
 * **Aqualid: success**
 * **Shake: success**
+* Fbuild: failure
 * **tup: success**
 
 
@@ -234,6 +247,7 @@ Run with a parallelism of 8, but limit a specific stage to no more than 2 concur
 * **Ninja: success**
 * SCons: failure, doesn't support pools
 * Aqualid: failure, doesn't support pools
+* Fbuild: failure, doesn't support pools
 * **Shake: success**
 * tup: unsure, nothing I can see
 
@@ -249,6 +263,7 @@ The `input` file will be changed, but sometimes to the same value.
 * Ninja: failure, doesn't support digests
 * **SCons: success**
 * **Aqualid: success**
+* **Fbuild: success**
 * **Shake: success**, requires setting `Digest` change mode.
 * tup: unsure
 
@@ -264,6 +279,7 @@ Rerun if and only if `input` file was changed.
 * Ninja: unsure
 * SCons: unsure
 * **Aqualid: success**
+* **Fbuild: success**
 * Shake: failure, doesn't support rules that are only run if the dependencies change but don't produce an output file
 * **tup: success**
 
@@ -288,6 +304,7 @@ Rerun if and only if `input` file was changed.
 * Ninja: unsure
 * SCons: unsure
 * Aqualid: failure
+* Fbuild: failure
 * Shake: failure, doesn't seem to be supported
 * **tup: success**
 
@@ -305,6 +322,7 @@ Within the scope of this test `change` means modification of both, contents and 
 * Ninja: unsure
 * SCons: unsure
 * Aqualid: failure
+* Fbuild: failure
 * **Shake: success**
 * tup: unsure
 
@@ -322,6 +340,7 @@ Within the scope of this test `change` means modification of both, contents and 
 * Ninja: unsure
 * SCons: unsure
 * Aqualid: failure
+* **Fbuild: success**
 * **Shake: success**
 * tup: unsure
 
@@ -334,11 +353,11 @@ The intention of this project is to figure out what dependency features each bui
 
 A pre dependency is one where you can introduce a dependency at the start, for example Make's `output: input`. Each output is allowed to express multiple dependencies, but they are all evaluated in isolation from each other.
 
-### Post dependencies [Ninja, Shake, tup]
+### Post dependencies [Ninja, Fbuild, Shake, tup]
 
 A post dependency is one where you introduce a dependency at the end, for example Ninja's `depfile`. These dependencies do not alter this build run, but will add dependencies for the next run.
 
-### Mid dependencies (monadic) [Shake, subsumes pre and post dependencies]
+### Mid dependencies (monadic) [Shake, Fbuild, subsumes pre and post dependencies]
 
 A monadic dependency lets you introduce a new dependency while running an action after consulting previous dependencies, for example Shake's `need`.
 
@@ -346,7 +365,7 @@ A monadic dependency lets you introduce a new dependency while running an action
 
 An auto post dependency is one computed from what you actually used, rather than explicitly stated dependencies.
 
-### Auto cached commands [fabricate]
+### Auto cached commands [fabricate, Fbuild]
 
 A cached command is where the inputs/outputs for a command are tracked, and the command is treated as a pure function and skipped if its inputs didn't change. This feature is more useful in build systems that go forward (from inputs to outputs) rather than the standard build systems that go from outputs to inputs.
 

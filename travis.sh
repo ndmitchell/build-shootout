@@ -29,7 +29,12 @@ export PATH=$PATH:$AQLPATH
 export PYTHONPATH=$PYTHONPATH:$AQLPATH
 (cd Aqualid-0.53 && python setup.py install --install-lib $AQLPATH --install-headers $AQLPATH --install-scripts $AQLPATH --install-data $AQLPATH)
 
+# Install fbuild
+sudo apt-get install python3 python3-setuptools
+git clone https://github.com/felix-lang/fbuild.git
+(cd fbuild && sudo python3 setup.py install)
+
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
-runhaskell Main shake make ninja fabricate aql --continue
+runhaskell Main shake make ninja fabricate aql fbuild --continue
 
 runhaskell Main monad1 fabricate --verbose --continue
