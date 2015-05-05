@@ -36,7 +36,7 @@ data Opt
       deriving Show
 
 
-data Tool = Tup | TupLua | Ninja | Shake | Make | Fabricate | SCons | Aql
+data Tool = Tup | TupLua | Ninja | Shake | Make | Fabricate | SCons | Aql | Fbuild
     deriving (Show,Eq,Enum,Bounded)
 
 
@@ -145,6 +145,10 @@ run name tool opts = do
         Fabricate -> do
             system_ $ "python " ++ name ++ "-fabricate.py" ++ (if verbose then "" else " --quiet") ++ " -j" ++ show p ++ " " ++ target
             when verbose $ putStrLn =<< readFile ".deps"
+        Fbuild -> do
+            copyFile (name ++ "-fbuild.py") "fbuildroot.py"
+            system_ $ "fbuild -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
+            removeFile "fbuildroot.py"
     sequence_ xs
 
 windows :: Bool
