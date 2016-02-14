@@ -1,0 +1,5 @@
+#!bash -eu
+
+gup -u list
+cat list | xargs gup -u
+cat list | xargs cat > "$1"

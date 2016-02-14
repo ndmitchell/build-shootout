@@ -1,0 +1,4 @@
+#!bash -eu
+gup --always
+sh system1-gen -- "$1"
+gup --contents "$1"

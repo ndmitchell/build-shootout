@@ -1,0 +1,4 @@
+#!bash -eu
+echo RUNNING: "$0" "$@"
+
+gup -u main.o

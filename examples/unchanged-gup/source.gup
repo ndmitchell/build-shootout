@@ -1,0 +1,5 @@
+#!bash -eu
+
+gup -u unchanged-gen input
+sh unchanged-gen input -- "$1"
+gup --contents "$1"

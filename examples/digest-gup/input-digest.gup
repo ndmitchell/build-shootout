@@ -1,0 +1,4 @@
+#!bash -eu
+
+gup --always
+gup --contents input

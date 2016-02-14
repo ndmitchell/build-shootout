@@ -10,6 +10,7 @@ This project attempts to clarify the relative power of various build systems. Co
 * [SCons](http://www.scons.org/), cross-platform.
 * [Aqualid](https://github.com/aqualid/), cross-platform.
 * [Fbuild](https://github.com/felix-lang/fbuild), cross-platform.
+* [Gup](https://github.com/timbertson/gup), cross-platform.
 
 All build scripts are in the [examples directory](https://github.com/ndmitchell/build-shootout/tree/master/examples), as <tt><i>testname</i>-<i>buildsystem</i></tt>. You can run all the examples with `runhaskell Main` (after installing the [Haskell Platform](http://www.haskell.org/platform/), and any build systems you want to run). Use the argument `make` to only run Make examples, or `basic` to only run the basic test. 
 
@@ -50,6 +51,7 @@ Given an input file, create an output file which is a copy of the input file. If
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**
+* **Gup: success**
 
 ### parallel: Parallelism
 
@@ -65,6 +67,7 @@ Given two targets, build them in parallel.
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**
+* **Gup: success**
 
 ### include: C #include files
 
@@ -80,6 +83,7 @@ Given a C file, compile it, automatically figuring out any transitively included
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**
+* **Gup: success**
 
 ### wildcard: Build a file specified by an extension wildcard
 
@@ -95,6 +99,7 @@ Given a command line argument of `123.in`, copy `123.in` to `123.out`. Should wo
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**
+* **Gup: success**
 
 ### spaces: Build a file containing spaces
 
@@ -110,6 +115,7 @@ Work with files including spaces.
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**, seems to require Lua
+* **Gup: success**
 
 ### monad1: Monadic patterns
 
@@ -125,6 +131,7 @@ The monad series of tests are designed to probe the difference between applicati
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**
+* **Gup: success**
 
 ### monad2: More monadic patterns
 
@@ -141,6 +148,7 @@ The second test is like the first, but the `list` file itself is generated.
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**
+* **Gup: success**
 
 
 ### monad3: More monadic patterns
@@ -159,6 +167,7 @@ The third test requires generating `list`, then generating the files `list` refe
 * **Fbuild: success**
 * **Shake: success**
 * tup: unsure, no one has been able to implement it yet
+* **Gup: success**
 
 
 ### unchanged: Handle files which do not change
@@ -176,6 +185,7 @@ In some cases `input` will change, but `source` will not change in response. It 
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**, requires `^o^` to be added
+* **Gup: success**, requires explicitly calling `gup --contents`
 
 
 ### multiple: Rules with multiple outputs
@@ -196,6 +206,7 @@ I believe this test can be written on top of `unchanged`, by encoding the depend
 * **Fbuild: success**
 * **Shake: success**
 * **tup: success**, requires `^o^` to be added
+* **Gup: success**, though hackish.
 
 
 ### system1: Dependency on system information
@@ -215,6 +226,7 @@ I believe that given a small amount of shell scripting glue (to run `system1-gen
 * **Fbuild: success**
 * **Shake: success**
 * tup: unsure
+* **Gup: success**
 
 
 ### system2: Dependency on system environment variable
@@ -232,6 +244,7 @@ Rerun if and only if `output` does not exist or system environment variable
 * **Shake: success**
 * Fbuild: failure
 * **tup: success**
+* **Gup: success**
 
 
 ### pool: Limit the parallelism in a specific stage
@@ -250,6 +263,7 @@ Run with a parallelism of 8, but limit a specific stage to no more than 2 concur
 * Fbuild: failure, doesn't support pools
 * **Shake: success**
 * tup: unsure, nothing I can see
+* **Gup: success**, using the external tool `sem` from GNU Parallel.
 
 
 ### digest: Don't rebuild when a file is modified to the same value
@@ -266,6 +280,7 @@ The `input` file will be changed, but sometimes to the same value.
 * **Fbuild: success**
 * **Shake: success**, requires setting `Digest` change mode.
 * tup: unsure
+* **Gup: success**, requires explicitly calling `gup --contents`
 
 
 ### nofileout: Don't produce an output file
@@ -282,6 +297,7 @@ Rerun if and only if `input` file was changed.
 * **Fbuild: success**
 * Shake: failure, doesn't support rules that are only run if the dependencies change but don't produce an output file
 * **tup: success**
+* **Gup: success**, though a stamp file still needs to be created.
 
 
 ### noleftover: Remove files left over from a previous build
@@ -307,6 +323,7 @@ Rerun if and only if `input` file was changed.
 * Fbuild: failure
 * Shake: failure, doesn't seem to be supported
 * **tup: success**
+* Gup: failure
 
 
 ### secondary: Secondary target
@@ -325,6 +342,7 @@ Within the scope of this test `change` means modification of both, contents and 
 * Fbuild: failure
 * **Shake: success**
 * tup: unsure
+* Gup: failure
 
 
 ### intermediate: Intermediate target
@@ -343,6 +361,7 @@ Within the scope of this test `change` means modification of both, contents and 
 * **Fbuild: success**
 * **Shake: success**
 * tup: unsure
+* Gup: failure
 
 
 ## Build System Power
@@ -353,11 +372,11 @@ The intention of this project is to figure out what dependency features each bui
 
 A pre dependency is one where you can introduce a dependency at the start, for example Make's `output: input`. Each output is allowed to express multiple dependencies, but they are all evaluated in isolation from each other.
 
-### Post dependencies [Ninja, Fbuild, Shake, tup]
+### Post dependencies [Ninja, Fbuild, Shake, tup, Gup]
 
 A post dependency is one where you introduce a dependency at the end, for example Ninja's `depfile`. These dependencies do not alter this build run, but will add dependencies for the next run.
 
-### Mid dependencies (monadic) [Shake, Fbuild, subsumes pre and post dependencies]
+### Mid dependencies (monadic) [Shake, Fbuild, Gup, subsumes pre and post dependencies]
 
 A monadic dependency lets you introduce a new dependency while running an action after consulting previous dependencies, for example Shake's `need`.
 
@@ -369,6 +388,6 @@ An auto post dependency is one computed from what you actually used, rather than
 
 A cached command is where the inputs/outputs for a command are tracked, and the command is treated as a pure function and skipped if its inputs didn't change. This feature is more useful in build systems that go forward (from inputs to outputs) rather than the standard build systems that go from outputs to inputs.
 
-### Regenerate [Make]
+### Regenerate [Make, Gup]
 
 Make lets you regenerate the Makefile and then continue again. How that works is anyones guess.
