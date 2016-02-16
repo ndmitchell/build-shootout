@@ -12,11 +12,11 @@ export PATH=$PATH:`pwd`/ninja
 
 # echo Install tup
 # Does not work, see: https://github.com/travis-ci/travis-ci/issues/1100
-# sudo apt-get install libfuse-dev
-# modprobe fuse
-# git clone https://github.com/gittup/tup
-# (cd tup && ./bootstrap.sh)
-# export PATH=$PATH:`pwd`/tup
+sudo apt-get install libfuse-dev
+modprobe fuse
+git clone https://github.com/gittup/tup
+(cd tup && ./bootstrap.sh)
+export PATH=$PATH:`pwd`/tup
 
 echo Install fabricate
 wget https://fabricate.googlecode.com/git/fabricate.py
