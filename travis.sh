@@ -36,6 +36,4 @@ git clone https://github.com/felix-lang/fbuild.git
 (cd fbuild && sudo python3 setup.py install)
 
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
-runhaskell Main shake make ninja fabricate aql fbuild --continue
-
-runhaskell Main monad1 fabricate --verbose --continue
+runhaskell Main shake make ninja fabricate aql fbuild
