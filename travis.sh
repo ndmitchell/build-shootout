@@ -30,6 +30,7 @@ export PYTHONPATH=$PYTHONPATH:$AQLPATH
 (cd Aqualid-0.53 && python setup.py install --install-lib $AQLPATH --install-headers $AQLPATH --install-scripts $AQLPATH --install-data $AQLPATH)
 
 echo Install fbuild
+sudo apt-get update
 sudo apt-get install python3 python3-setuptools
 git clone https://github.com/felix-lang/fbuild.git
 (cd fbuild && sudo python3 setup.py install)
