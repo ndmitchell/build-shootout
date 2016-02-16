@@ -11,7 +11,6 @@ git clone https://github.com/martine/ninja
 export PATH=$PATH:`pwd`/ninja
 
 # echo Install tup
-# Does not work, see: https://github.com/travis-ci/travis-ci/issues/1100
 sudo apt-get install libfuse-dev
 modprobe fuse
 git clone https://github.com/gittup/tup
@@ -36,4 +35,4 @@ git clone https://github.com/felix-lang/fbuild.git
 (cd fbuild && sudo python3 setup.py install)
 
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
-runhaskell Main shake make ninja fabricate aql fbuild
+runhaskell Main shake make ninja fabricate aql fbuild tup
