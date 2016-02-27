@@ -22,6 +22,27 @@ import System.IO
 import System.Info
 import System.Process
 import System.Random
+import System.Posix.Files
+
+
+copyDir :: FilePath -> FilePath -> IO ()
+copyDir src dst = do
+    contents <- getDirectoryContents src
+    let files = [ file | file <- contents
+                       , file /= "."
+                       , file /= ".." ]
+    createDirectory dst
+    forM_ files $ copy src dst
+
+
+copy :: FilePath -> FilePath -> FilePath -> IO ()
+copy src dst file = do
+    directoryExists <- doesDirectoryExist $ src </> file
+    if directoryExists
+       then do
+           copyDir (src </> file) (dst </> file)
+       else
+           copyFile (src </> file) (dst </> file)
 
 
 data Opt
@@ -36,7 +57,7 @@ data Opt
       deriving Show
 
 
-data Tool = Tup | TupLua | Ninja | Shake | Make | Fabricate | SCons | Aql | Fbuild
+data Tool = Tup | TupLua | Ninja | Shake | Make | Fabricate | SCons | Aql | Fbuild | Gup
     deriving (Show,Eq,Enum,Bounded)
 
 
@@ -68,8 +89,10 @@ test name f = do
         killDir "temp"
         createDir "temp"
         forM_ ["examples","util"] $ \dir -> do
-            xs <- getDirectoryContents dir
-            sequence_ [copyFile (dir </> x) ("temp" </> x) | x <- xs, (name ++ "-") `isPrefixOf` x]
+            files <- getDirectoryContents dir
+            forM_ files $ \file ->
+                when ((lcase name ++ "-") `isPrefixOf` file) $
+                    copy dir "temp" file
         writeFile ".log" ""
         withCurrentDirectory "temp" $
             (if "continue" `elem` options then continue else id) $
@@ -149,6 +172,10 @@ run name tool opts = do
             copyFile (name ++ "-fbuild.py") "fbuildroot.py"
             system_ $ "fbuild -j" ++ show p ++ " " ++ target ++ " > " ++ devNull
             removeFile "fbuildroot.py"
+        Gup -> do
+            createSymbolicLink (name ++ "-gup") "gup"
+            system_ $ "gup -u -j" ++ show p ++ " " ++ target ++ " &> " ++ devNull
+            removeFile "gup"
     sequence_ xs
 
 windows :: Bool

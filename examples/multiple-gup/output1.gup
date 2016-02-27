@@ -1,0 +1,4 @@
+#!bash -eu
+
+gup -u source1
+sh multiple-run source1 -- "$1"

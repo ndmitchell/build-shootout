@@ -1,0 +1,7 @@
+#!bash -eu
+
+gup -u include-main.c
+gcc -MM -MF main.d include-main.c
+read _ DEPS < main.d
+gup -u $DEPS
+gcc -c include-main.c -o "$1"

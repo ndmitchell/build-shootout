@@ -1,0 +1,4 @@
+#!bash -eu
+
+gup -u monad2-run source
+sh monad2-run source -- "$1"

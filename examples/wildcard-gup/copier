@@ -1,0 +1,5 @@
+#!bash -eu
+
+SRC=${2%.out}.in
+gup -u "$SRC"
+cp "$SRC" "$1"

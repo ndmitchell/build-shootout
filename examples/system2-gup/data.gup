@@ -1,0 +1,4 @@
+#!bash -e
+
+gup --always
+gup --contents <<<"$SYSTEM2_DATA"
