@@ -34,5 +34,9 @@ sudo apt-get install python3 python3-setuptools
 git clone https://github.com/felix-lang/fbuild.git
 (cd fbuild && sudo python3 setup.py install)
 
+echo Install gup
+apt-get install 0install-core --no-install-recommends
+0install add gup http://gfxmonk.net/dist/0install/gup.xml
+
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
-runhaskell Main shake make ninja fabricate aql fbuild tup
+runhaskell Main shake make ninja fabricate aql fbuild tup gup
