@@ -388,6 +388,6 @@ An auto post dependency is one computed from what you actually used, rather than
 
 A cached command is where the inputs/outputs for a command are tracked, and the command is treated as a pure function and skipped if its inputs didn't change. This feature is more useful in build systems that go forward (from inputs to outputs) rather than the standard build systems that go from outputs to inputs.
 
-### Regenerate [Make, Gup]
+### Regenerate [Make]
 
 Make lets you regenerate the Makefile and then continue again. How that works is anyones guess.
