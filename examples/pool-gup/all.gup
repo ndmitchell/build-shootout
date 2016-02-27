@@ -1,3 +1,0 @@
-#!bash -eu
-
-gup -u output1 output2 output3

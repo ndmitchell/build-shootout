@@ -263,7 +263,7 @@ Run with a parallelism of 8, but limit a specific stage to no more than 2 concur
 * Fbuild: failure, doesn't support pools
 * **Shake: success**
 * tup: unsure, nothing I can see
-* **Gup: success**, using the external tool `sem` from GNU Parallel.
+* Gup: failure, doesn't support pools
 
 
 ### digest: Don't rebuild when a file is modified to the same value

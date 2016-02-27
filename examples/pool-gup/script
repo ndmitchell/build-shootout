@@ -1,3 +1,0 @@
-#!bash -eu
-
-sem -j2 --id "$BASH_SOURCE" --fg -- sh pool-run "${2/output/input}" -- "$2"
