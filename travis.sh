@@ -10,7 +10,7 @@ git clone https://github.com/martine/ninja
 (cd ninja && ./bootstrap.py)
 export PATH=$PATH:`pwd`/ninja
 
-# echo Install tup
+echo Install tup
 sudo apt-get install libfuse-dev
 modprobe fuse
 git clone https://github.com/gittup/tup
