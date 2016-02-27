@@ -35,6 +35,7 @@ git clone https://github.com/felix-lang/fbuild.git
 (cd fbuild && sudo python3 setup.py install)
 
 echo Install gup
+# see http://installion.co.uk/ubuntu/vivid/universe/0/0install-core/install/index.html
 sudo cat /etc/apt/sources.list
 sudo apt-get install 0install-core --no-install-recommends
 0install add gup http://gfxmonk.net/dist/0install/gup.xml
