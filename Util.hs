@@ -230,9 +230,3 @@ modTime file | "." `isPrefixOf` file = return Nothing
              | otherwise = do
                 b <- doesFileExist file
                 if b then fmap (Just . show) $ getModificationTime file else return Nothing
-
-
-withCurrentDirectory :: FilePath -> IO () -> IO ()
-withCurrentDirectory dir act = do
-    curdir <- getCurrentDirectory
-    bracket_ (setCurrentDirectory dir) (setCurrentDirectory curdir) act
