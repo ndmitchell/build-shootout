@@ -41,4 +41,6 @@ sudo apt-get install 0install-core --no-install-recommends
 0install add gup http://gfxmonk.net/dist/0install/gup.xml
 
 export PATH=/home/travis/.ghc-multi/7.6.3/bin:$PATH
-runhaskell Main shake make ninja fabricate aql fbuild tup gup
+runhaskell Main shake make ninja fabricate aql fbuild tup
+    # gup
+    # Temporarily disabled gup due to: https://travis-ci.org/ndmitchell/build-shootout/builds/586561022#L1172
