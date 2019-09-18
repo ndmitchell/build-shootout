@@ -18,7 +18,7 @@ git clone https://github.com/gittup/tup
 export PATH=$PATH:`pwd`/tup
 
 echo Install fabricate
-wget https://fabricate.googlecode.com/git/fabricate.py
+wget https://raw.githubusercontent.com/SimonAlfie/fabricate/master/fabricate.py
 export PYTHONPATH=$PWD:$PYTHONPATH
 
 echo Install Aqualid
